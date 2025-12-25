@@ -209,6 +209,14 @@ export const HanoiUI = ({ onBack }: HanoiUIProps) => {
                                 </div>
                             </div>
 
+                            {/* New Game */}
+                            <button
+                                onClick={() => { initGame(); setShowSettings(false); }}
+                                className="w-full py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-lg text-sm"
+                            >
+                                🎮 새 게임
+                            </button>
+
                             {/* Leaderboard */}
                             <button
                                 onClick={() => {
