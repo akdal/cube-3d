@@ -2,6 +2,53 @@
 
 ## 완료된 작업 (Completed Tasks)
 
+### 2025-12-25: Color Mix Quick-Mix Interaction
+
+**목표 (Goal)**: 컬러 믹스 게임에 빠른 섞기 기능 추가로 사용자 경험 개선
+
+**구현 내용 (Implementation)**:
+
+#### Quick-Mix Features
+- **선택된 볼 재클릭 시 즉시 섞기**:
+  - 이미 선택된 컬러 볼을 다시 클릭하면 바로 섞기 실행
+  - 별도의 "섞기" 버튼 클릭 없이 빠른 작업 가능
+
+- **더블 클릭 지원**:
+  - 어떤 볼이든 더블 클릭(300ms 이내)하면 즉시 선택 + 섞기 실행
+  - 한 번의 제스처로 전체 작업 완료 가능
+
+- **안내 문구 추가**:
+  - 화면 하단에 기능 설명 추가
+  - "🎯 색 선택 → 다시 클릭하면 바로 섞기! (더블클릭도 가능) • 목표: {minMoves}회 안에 95% 일치"
+
+#### Technical Implementation
+- `ColorGame.tsx`:
+  - `ColorBall` 컴포넌트에 `onMix` prop 추가
+  - `handleClick` 콜백에 더블 클릭 감지 로직 구현 (300ms threshold)
+  - `isSelected` 상태 체크 후 재클릭 시 즉시 mix 실행
+  - `lastClickTime` ref로 클릭 타이밍 추적
+
+- `ColorUI.tsx`:
+  - 하단 안내 문구 업데이트
+
+**결과 (Result)**:
+- 클릭 횟수 감소로 더 빠른 게임 플레이
+- 직관적인 상호작용으로 UX 향상
+- 더블 클릭 옵션으로 플레이어 선택권 확대
+- 명확한 안내 문구로 기능 발견성 증가
+
+**배포 정보 (Deployment)**:
+- 커밋: 340266b
+- 배포 URL: https://roha-puzzle.vercel.app
+- 배포 ID: Ge6QwyKjuHCcMPYgjgvac94N14x6
+- 배포 시각: 2025-12-25
+
+**관련 파일 (Related Files)**:
+- `/Users/hwijin/Projects/roha-puzzle/src/games/color/ColorGame.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/color/ColorUI.tsx`
+
+---
+
 ### 2025-12-25: UI Consistency Improvements
 
 **목표 (Goal)**: 모든 게임에서 버튼 배치를 통일하여 일관된 사용자 경험 제공
