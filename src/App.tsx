@@ -112,10 +112,12 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
 
       <div className="text-center relative z-10">
         {/* Dedication */}
-        <div className="mb-6">
-          <span className="text-pink-400/80 text-sm tracking-[0.3em] uppercase font-light">
-            for 로하
-          </span>
+        <div className="mb-8">
+          <div className="inline-block px-6 py-3 rounded-full bg-gradient-to-r from-pink-500/20 via-rose-500/20 to-pink-500/20 border border-pink-400/30 backdrop-blur-sm">
+            <span className="text-xl sm:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-300 to-pink-300 tracking-wide">
+              for 로하
+            </span>
+          </div>
         </div>
 
         {/* Title */}
@@ -127,7 +129,7 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
         </p>
 
         {/* Game Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 max-w-4xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 max-w-2xl mx-auto">
           {/* Rubik's Cube */}
           <button
             onClick={() => onSelectGame('rubiks')}
@@ -139,7 +141,7 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
                 <span className="text-2xl sm:text-3xl">🎲</span>
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-white mb-1.5">루빅스 큐브</h2>
-              <p className="text-orange-300/70 text-xs font-medium mb-3">2×2 & 3×3</p>
+              <p className="text-orange-300/70 text-xs font-medium mb-3">2×2, 3×3</p>
               <p className="text-white/40 text-xs leading-relaxed">
                 모든 면의 색상을 맞추세요
               </p>
@@ -175,7 +177,7 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
                 <span className="text-2xl sm:text-3xl">🧩</span>
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-white mb-1.5">슬라이드 퍼즐</h2>
-              <p className="text-cyan-300/70 text-xs font-medium mb-3">2×2, 3×3 & 4×4</p>
+              <p className="text-cyan-300/70 text-xs font-medium mb-3">2×2, 3×3, 4×4</p>
               <p className="text-white/40 text-xs leading-relaxed">
                 숫자를 순서대로 정렬하세요
               </p>
