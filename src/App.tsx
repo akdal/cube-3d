@@ -93,7 +93,7 @@ interface GameMenuProps {
 
 function GameMenu({ onSelectGame }: GameMenuProps) {
   return (
-    <div className="w-full h-full bg-[#0a0a1a] flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="w-full min-h-full bg-[#0a0a1a] flex items-center justify-center p-4 py-8 relative overflow-y-auto">
       {/* Animated background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" />
