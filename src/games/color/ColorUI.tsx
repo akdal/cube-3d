@@ -80,17 +80,17 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
         return (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#0a1628]/95 to-[#1a3a4a]/95 backdrop-blur-sm">
                 <div className="bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-cyan-500/20">
-                    <div className="text-4xl mb-2">{isNewRecord ? '🏆' : accuracy === 100 ? '🌟' : '🎨'}</div>
-                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300 mb-2">
+                    <div className="text-4xl mb-2">{isNewRecord ? '🏆' : accuracy === 100 ? '⭐' : '🎨'}</div>
+                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-blue-300 mb-2">
                         {isNewRecord ? '새로운 기록!' : accuracy === 100 ? '완벽해요!' : '잘했어요!'}
                     </h1>
                     <p className="text-lg text-cyan-200 mb-4">
                         {isPerfectMoves
-                            ? `최단 경로로 완성! (${minMoves}회)`
+                            ? `최단 경로로 완성! (${minMoves}회) ❄️`
                             : isNewRecord
                                 ? `${accuracy}% 정확도로 색을 만들었어요!`
                                 : accuracy === 100
-                                    ? `완벽하게 같은 색을 만들었어요!`
+                                    ? `완벽하게 같은 색을 만들었어요! ✨`
                                     : `${accuracy}% 일치하는 색을 만들었어요!`
                         }
                     </p>
@@ -139,9 +139,9 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
                     <div className="flex flex-col gap-3 mt-6">
                         <button
                             onClick={() => nextLevel()}
-                            className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg rounded-full font-bold hover:from-pink-400 hover:to-purple-400 transition shadow-lg"
+                            className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-lg rounded-full font-bold hover:from-cyan-400 hover:to-blue-400 transition shadow-lg"
                         >
-                            🎨 다음 레벨
+                            ❄️ 다음 레벨
                         </button>
                         <button
                             onClick={() => initGame()}

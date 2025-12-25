@@ -1,25 +1,24 @@
 import { useEffect, useState, useRef } from 'react';
-import { usePuzzleStore } from './usePuzzleStore';
+import { useLightsStore } from './useLightsStore';
 import { useCelebration } from '../../components/Celebration';
 
-interface PuzzleUIProps {
+interface LightsUIProps {
     onBack: () => void;
 }
 
-export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
+export const LightsUI = ({ onBack }: LightsUIProps) => {
     const {
         gameStatus,
         startTime,
         moveCount,
         gridSize,
+        level,
         setGridSize,
-        scramble,
+        initGame,
+        nextLevel,
         leaderboard,
-        hintCount,
-        showHint,
-        hintActive,
         requestViewReset,
-    } = usePuzzleStore();
+    } = useLightsStore();
 
     const [showSettings, setShowSettings] = useState(false);
     const [showLeaderboard, setShowLeaderboard] = useState(false);
@@ -51,26 +50,24 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
             ? '0.00'
             : ((now - startTime) / 1000).toFixed(2);
 
-    // Solved screen - Winter theme
+    // Solved screen
     if (gameStatus === 'SOLVED') {
         const currentTime = startTime ? (now - startTime) / 1000 : 0;
-
-        // Check if this is a new record (best time for same grid size)
-        const sameGridRecords = leaderboard.filter(e => e.gridSize === gridSize);
-        const isNewRecord = sameGridRecords.length <= 1 ||
-            (sameGridRecords.length > 1 && currentTime < sameGridRecords[1].time);
+        const sameRecords = leaderboard.filter(e => e.gridSize === gridSize && e.level === level);
+        const isNewRecord = sameRecords.length <= 1 ||
+            (sameRecords.length > 1 && currentTime < sameRecords[1].time);
 
         return (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#0a1628]/95 to-[#1a3a4a]/95 backdrop-blur-sm">
                 <div className="bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-cyan-500/20">
                     <div className="text-4xl mb-2">{isNewRecord ? '🏆' : '🎄'}</div>
-                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 mb-2">
-                        {isNewRecord ? '새로운 기록!' : '잘했어요!'}
+                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-yellow-300 to-green-400 mb-2">
+                        {isNewRecord ? '새로운 기록!' : '트리 완성!'}
                     </h1>
                     <p className="text-lg text-cyan-200 mb-4">
                         {isNewRecord
-                            ? `${gridSize}×${gridSize} 퍼즐을 ${timeDisplay}초 만에 완성했어요!`
-                            : `${gridSize}×${gridSize} 퍼즐을 완성했어요!`
+                            ? `레벨 ${level}을 ${moveCount}번 만에 클리어!`
+                            : `크리스마스 트리 불을 모두 껐어요! ⭐`
                         }
                     </p>
                     <div className="bg-cyan-900/30 rounded-xl p-4 mb-4">
@@ -83,26 +80,25 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                                 <div className="text-cyan-400/60">횟수</div>
                                 <div className="text-xl font-mono font-bold text-cyan-100">{moveCount}회</div>
                             </div>
+                            <div>
+                                <div className="text-cyan-400/60">레벨</div>
+                                <div className="text-xl font-mono font-bold text-amber-300">{level}</div>
+                            </div>
                         </div>
                     </div>
-                    {hintCount > 0 && (
-                        <div className="text-purple-400 text-sm mb-2">
-                            💡 힌트를 {hintCount}번 사용했어요
-                        </div>
-                    )}
 
                     <div className="flex flex-col gap-3">
                         <button
-                            onClick={() => scramble()}
-                            className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-lg rounded-full font-bold hover:from-cyan-400 hover:to-blue-400 transition shadow-lg"
+                            onClick={() => nextLevel()}
+                            className="px-8 py-4 bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 text-white text-lg rounded-full font-bold hover:from-red-400 hover:via-yellow-400 hover:to-green-400 transition shadow-lg"
                         >
-                            🎮 새 게임
+                            🎄 다음 레벨
                         </button>
                         <button
-                            onClick={() => setShowLeaderboard(true)}
-                            className="text-cyan-300 underline hover:text-cyan-100"
+                            onClick={() => initGame()}
+                            className="px-6 py-2 text-cyan-300 hover:text-cyan-100"
                         >
-                            기록 보기
+                            이 레벨 다시하기
                         </button>
                         <button
                             onClick={onBack}
@@ -112,40 +108,6 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                         </button>
                     </div>
                 </div>
-
-                {showLeaderboard && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/90">
-                        <div className="bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-6 rounded-xl w-80 relative border border-cyan-500/20">
-                            <button
-                                onClick={() => setShowLeaderboard(false)}
-                                className="absolute top-2 right-3 text-xl font-bold text-cyan-300"
-                            >
-                                ×
-                            </button>
-                            <h2 className="text-2xl font-bold mb-4 text-cyan-100">기록</h2>
-                            {leaderboard.length === 0 ? (
-                                <p className="text-cyan-400/60">기록이 없습니다.</p>
-                            ) : (
-                                <ul className="space-y-2">
-                                    {leaderboard.map((entry, i) => (
-                                        <li
-                                            key={i}
-                                            className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
-                                        >
-                                            <span>
-                                                {i + 1}. {entry.gridSize}×{entry.gridSize}
-                                                {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
-                                            </span>
-                                            <span className="font-mono">
-                                                {entry.moves}회 / {entry.time.toFixed(2)}초
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
-                    </div>
-                )}
             </div>
         );
     }
@@ -159,7 +121,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                     {/* Header */}
                     <div className="flex items-center justify-between p-3 sm:p-4">
                         <h1 className="text-base sm:text-xl font-bold text-cyan-100">
-                            <span className="mr-2">🧩</span>슬라이드 퍼즐
+                            <span className="mr-2">🎄</span>트리 라이트
                         </h1>
                         <button
                             onClick={() => setShowSettings(!showSettings)}
@@ -185,15 +147,10 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                             <span className="text-xl sm:text-2xl">🔄</span>
                         </button>
                         <button
-                            onClick={showHint}
-                            disabled={hintActive}
-                            className={`flex-1 py-3 sm:py-4 text-center transition ${
-                                hintActive
-                                    ? 'text-gray-600 cursor-not-allowed'
-                                    : 'text-yellow-400 active:bg-cyan-500/10'
-                            }`}
+                            onClick={() => initGame()}
+                            className="flex-1 py-3 sm:py-4 text-center text-yellow-400 active:bg-cyan-500/10 transition"
                         >
-                            <span className="text-xl sm:text-2xl">💡</span>
+                            <span className="text-xl sm:text-2xl">🔃</span>
                         </button>
                     </div>
 
@@ -204,45 +161,22 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                             <div>
                                 <div className="text-xs text-cyan-400/60 mb-1.5">크기</div>
                                 <div className="flex gap-2">
-                                    <button
-                                        onClick={() => {
-                                            setGridSize(2);
-                                            setShowSettings(false);
-                                        }}
-                                        className={`flex-1 py-2 text-sm font-bold rounded-lg transition ${
-                                            gridSize === 2
-                                                ? 'bg-cyan-500 text-white'
-                                                : 'bg-cyan-900/50 text-cyan-300'
-                                        }`}
-                                    >
-                                        2×2
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setGridSize(3);
-                                            setShowSettings(false);
-                                        }}
-                                        className={`flex-1 py-2 text-sm font-bold rounded-lg transition ${
-                                            gridSize === 3
-                                                ? 'bg-cyan-500 text-white'
-                                                : 'bg-cyan-900/50 text-cyan-300'
-                                        }`}
-                                    >
-                                        3×3
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setGridSize(4);
-                                            setShowSettings(false);
-                                        }}
-                                        className={`flex-1 py-2 text-sm font-bold rounded-lg transition ${
-                                            gridSize === 4
-                                                ? 'bg-cyan-500 text-white'
-                                                : 'bg-cyan-900/50 text-cyan-300'
-                                        }`}
-                                    >
-                                        4×4
-                                    </button>
+                                    {[3, 4, 5].map((size) => (
+                                        <button
+                                            key={size}
+                                            onClick={() => {
+                                                setGridSize(size);
+                                                setShowSettings(false);
+                                            }}
+                                            className={`flex-1 py-2 text-sm font-bold rounded-lg transition ${
+                                                gridSize === size
+                                                    ? 'bg-cyan-500 text-white'
+                                                    : 'bg-cyan-900/50 text-cyan-300'
+                                            }`}
+                                        >
+                                            {size}×{size}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
@@ -278,8 +212,8 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                         </div>
                     </div>
                     <div className="bg-gradient-to-b from-[#1a3a4a]/90 to-[#0f2937]/90 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-white backdrop-blur-md border border-cyan-500/20">
-                        <div className="text-xs sm:text-sm text-cyan-400/60 uppercase">횟수</div>
-                        <div className="text-xl sm:text-2xl font-mono font-bold text-cyan-100">{moveCount}</div>
+                        <div className="text-xs sm:text-sm text-cyan-400/60 uppercase">레벨</div>
+                        <div className="text-xl sm:text-2xl font-mono font-bold text-amber-300">{level}</div>
                     </div>
                 </div>
             </div>
@@ -306,8 +240,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                                     className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                 >
                                     <span>
-                                        {i + 1}. {entry.gridSize}×{entry.gridSize}
-                                        {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
+                                        {i + 1}. Lv{entry.level} ({entry.gridSize}×{entry.gridSize})
                                     </span>
                                     <span className="font-mono">
                                         {entry.moves}회 - {entry.time.toFixed(2)}초
@@ -319,13 +252,18 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                 </div>
             )}
 
-            {/* Bottom - Small New Game Button */}
+            {/* Bottom - Info */}
             <div className="flex flex-col items-center gap-2 pointer-events-auto mb-4">
                 <div className="flex items-center gap-2 text-cyan-300/70 text-xs">
                     <span className="bg-cyan-500/10 px-2 py-0.5 rounded-full font-bold border border-cyan-500/20">{gridSize}×{gridSize}</span>
+                    <span>•</span>
+                    <span>횟수: {moveCount}</span>
                 </div>
                 <button
-                    onClick={() => scramble()}
+                    onClick={() => {
+                        useLightsStore.setState({ level: 1 });
+                        initGame();
+                    }}
                     className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-bold rounded-full shadow-lg hover:from-cyan-400 hover:to-blue-400 transition"
                 >
                     🎮 새 게임
@@ -333,7 +271,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
             </div>
 
             <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 text-cyan-400/50 text-xs sm:text-sm">
-                🎯 1~{gridSize * gridSize - 1}을 순서대로 정렬하세요 • 클릭으로 슬라이드
+                🎄 클릭하면 주변 불도 함께 바뀌어요 • 트리 불을 모두 끄세요
             </div>
         </div>
     );

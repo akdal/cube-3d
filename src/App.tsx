@@ -8,9 +8,11 @@ import { useStore } from './store/useStore';
 import { Hanoi } from './games/hanoi';
 import { Puzzle } from './games/puzzle';
 import { Memory } from './games/memory';
+import { Lights } from './games/lights';
+import { ColorMix } from './games/color';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
-type GameType = 'menu' | 'rubiks' | 'hanoi' | 'puzzle' | 'memory';
+type GameType = 'menu' | 'rubiks' | 'hanoi' | 'puzzle' | 'memory' | 'lights' | 'color';
 
 const DEFAULT_CAMERA_POSITION = new Vector3(5, 5, 5);
 
@@ -239,16 +241,12 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
             </div>
           </button>
 
-          {/* Memory Card - NEW */}
+          {/* Memory Card */}
           <button
             onClick={() => onSelectGame('memory')}
             className="group relative bg-gradient-to-b from-white/[0.08] to-transparent backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:border-green-400/40 hover:bg-green-500/10 hover:scale-[1.02] hover:-translate-y-1"
           >
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            {/* NEW badge */}
-            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg animate-pulse">
-              NEW
-            </div>
             <div className="relative">
               <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/30">
                 <span className="text-2xl sm:text-3xl">🎄</span>
@@ -257,6 +255,50 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
               <p className="text-green-300/70 text-xs font-medium mb-3">4×4, 5×5</p>
               <p className="text-cyan-100/40 text-xs leading-relaxed">
                 같은 그림의 카드 짝을 찾으세요
+              </p>
+            </div>
+          </button>
+
+          {/* Lights Out - NEW */}
+          <button
+            onClick={() => onSelectGame('lights')}
+            className="group relative bg-gradient-to-b from-white/[0.08] to-transparent backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:border-yellow-400/40 hover:bg-yellow-500/10 hover:scale-[1.02] hover:-translate-y-1"
+          >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            {/* NEW badge */}
+            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg animate-pulse">
+              NEW
+            </div>
+            <div className="relative">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-red-500 via-green-500 to-yellow-400 flex items-center justify-center shadow-lg shadow-yellow-500/30">
+                <span className="text-2xl sm:text-3xl">🎄</span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-1.5">트리 라이트</h2>
+              <p className="text-yellow-300/70 text-xs font-medium mb-3">3×3, 4×4, 5×5</p>
+              <p className="text-cyan-100/40 text-xs leading-relaxed">
+                크리스마스 트리 불을 모두 끄세요
+              </p>
+            </div>
+          </button>
+
+          {/* Color Mix - NEW */}
+          <button
+            onClick={() => onSelectGame('color')}
+            className="group relative bg-gradient-to-b from-white/[0.08] to-transparent backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:scale-[1.02] hover:-translate-y-1"
+          >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            {/* NEW badge */}
+            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg animate-pulse">
+              NEW
+            </div>
+            <div className="relative">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                <span className="text-2xl sm:text-3xl">❄️</span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-1.5">컬러 믹스</h2>
+              <p className="text-cyan-300/70 text-xs font-medium mb-3">겨울 색 조합</p>
+              <p className="text-cyan-100/40 text-xs leading-relaxed">
+                색을 섞어 목표 색상을 만드세요
               </p>
             </div>
           </button>
@@ -289,6 +331,10 @@ function App() {
       return <Puzzle onBack={handleBack} />;
     case 'memory':
       return <Memory onBack={handleBack} />;
+    case 'lights':
+      return <Lights onBack={handleBack} />;
+    case 'color':
+      return <ColorMix onBack={handleBack} />;
     default:
       return <GameMenu onSelectGame={setCurrentGame} />;
   }

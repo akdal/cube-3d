@@ -27,6 +27,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
     const [showSettings, setShowSettings] = useState(false);
     const [showLeaderboard, setShowLeaderboard] = useState(false);
     const [now, setNow] = useState(() => Date.now());
+    const [hideTimer, setHideTimer] = useState(false);
     const { celebrate } = useCelebration();
     const celebratedRef = useRef(false);
 
@@ -274,9 +275,18 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                 {/* Right Panel - Stats */}
                 <div className="flex gap-2 sm:gap-3">
                     <div className="bg-gradient-to-b from-[#1a3a4a]/90 to-[#0f2937]/90 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-white backdrop-blur-md border border-cyan-500/20">
-                        <div className="text-xs sm:text-sm text-cyan-400/60 uppercase">시간</div>
+                        <div className="flex items-center gap-1.5 text-xs sm:text-sm text-cyan-400/60 uppercase">
+                            <span>시간</span>
+                            <button
+                                onClick={() => setHideTimer(!hideTimer)}
+                                className="text-sm sm:text-base hover:text-cyan-300 transition"
+                                title={hideTimer ? '시간 보기' : '시간 숨기기'}
+                            >
+                                {hideTimer ? '🙈' : '👁️'}
+                            </button>
+                        </div>
                         <div className="text-xl sm:text-3xl font-mono font-bold text-yellow-300">
-                            {timeDisplay}
+                            {hideTimer ? '---' : timeDisplay}
                         </div>
                     </div>
                     <div className="bg-gradient-to-b from-[#1a3a4a]/90 to-[#0f2937]/90 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-white backdrop-blur-md border border-cyan-500/20">
