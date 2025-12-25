@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Deployment
+
+**Production Domain**: `3d-puzzle-roha.vercel.app`
+
+⚠️ **IMPORTANT**: Always deploy to this domain only. Do NOT deploy to other domains like `cube-3d-ten.vercel.app`.
+
+```bash
+# Deploy to production
+npx vercel --prod --yes
+```
+
 ## Commands
 
 ```bash
