@@ -52,30 +52,30 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
         return (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
                 <div className="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-full">
-                    <h1 className="text-4xl font-bold text-green-600 mb-4">SOLVED!</h1>
+                    <h1 className="text-4xl font-bold text-green-600 mb-4">완료!</h1>
                     <div className="text-2xl mb-2">
-                        Time: <span className="font-mono">{timeDisplay}</span>s
+                        시간: <span className="font-mono">{timeDisplay}</span>초
                     </div>
-                    <div className="text-xl mb-6">Moves: {moveCount}</div>
+                    <div className="text-xl mb-6">횟수: {moveCount}회</div>
 
                     <div className="flex flex-col gap-3">
                         <button
                             onClick={() => scramble()}
                             className="px-8 py-4 bg-blue-600 text-white text-lg rounded-full font-bold hover:bg-blue-700 transition"
                         >
-                            Play Again
+                            다시 하기
                         </button>
                         <button
                             onClick={() => setShowLeaderboard(true)}
                             className="text-gray-500 underline hover:text-gray-800"
                         >
-                            View Leaderboard
+                            기록 보기
                         </button>
                         <button
                             onClick={onBack}
                             className="text-gray-400 hover:text-gray-600"
                         >
-                            Back to Menu
+                            메뉴로 돌아가기
                         </button>
                     </div>
                 </div>
@@ -89,9 +89,9 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                             >
                                 ×
                             </button>
-                            <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
+                            <h2 className="text-2xl font-bold mb-4">기록</h2>
                             {leaderboard.length === 0 ? (
-                                <p className="text-gray-500">No records yet.</p>
+                                <p className="text-gray-500">기록이 없습니다.</p>
                             ) : (
                                 <ul className="space-y-2">
                                     {leaderboard.map((entry, i) => (
@@ -103,7 +103,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                                                 {i + 1}. {entry.gridSize}×{entry.gridSize}
                                             </span>
                                             <span className="font-mono">
-                                                {entry.moves} moves / {entry.time.toFixed(2)}s
+                                                {entry.moves}회 / {entry.time.toFixed(2)}초
                                             </span>
                                         </li>
                                     ))}
@@ -124,7 +124,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                 <div className="bg-black/60 rounded-2xl text-white backdrop-blur-md border border-white/10 overflow-hidden min-w-[160px] sm:min-w-[200px]">
                     {/* Header */}
                     <div className="flex items-center justify-between p-3 sm:p-4">
-                        <h1 className="text-base sm:text-xl font-bold">Slide Puzzle</h1>
+                        <h1 className="text-base sm:text-xl font-bold">슬라이드 퍼즐</h1>
                         <button
                             onClick={() => setShowSettings(!showSettings)}
                             className="text-xl sm:text-2xl px-1"
@@ -154,7 +154,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                         <div className="p-3 sm:p-4 border-t border-white/10 space-y-3">
                             {/* Grid Size */}
                             <div>
-                                <div className="text-xs text-gray-400 mb-1.5">Grid Size</div>
+                                <div className="text-xs text-gray-400 mb-1.5">크기</div>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => {
@@ -206,7 +206,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                                 }}
                                 className="w-full text-left text-sm text-blue-300 active:text-blue-100 py-1"
                             >
-                                📊 Leaderboard
+                                📊 기록
                             </button>
                         </div>
                     )}
@@ -215,13 +215,13 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                 {/* Right Panel - Stats */}
                 <div className="flex gap-2 sm:gap-3">
                     <div className="bg-black/60 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-white backdrop-blur-md border border-white/10">
-                        <div className="text-xs sm:text-sm text-gray-400 uppercase">Time</div>
+                        <div className="text-xs sm:text-sm text-gray-400 uppercase">시간</div>
                         <div className="text-xl sm:text-3xl font-mono font-bold text-yellow-400">
                             {timeDisplay}
                         </div>
                     </div>
                     <div className="bg-black/60 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-white backdrop-blur-md border border-white/10">
-                        <div className="text-xs sm:text-sm text-gray-400 uppercase">Moves</div>
+                        <div className="text-xs sm:text-sm text-gray-400 uppercase">횟수</div>
                         <div className="text-xl sm:text-2xl font-mono font-bold">{moveCount}</div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
             {showLeaderboard && (
                 <div className="absolute top-20 left-6 pointer-events-auto bg-white p-4 rounded-xl w-72 shadow-xl z-50">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold text-black">Leaderboard</h2>
+                        <h2 className="text-xl font-bold text-black">기록</h2>
                         <button
                             onClick={() => setShowLeaderboard(false)}
                             className="text-gray-500 hover:text-black text-xl font-bold leading-none"
@@ -240,7 +240,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                         </button>
                     </div>
                     {leaderboard.length === 0 ? (
-                        <p className="text-gray-500 text-sm">No records.</p>
+                        <p className="text-gray-500 text-sm">기록이 없습니다.</p>
                     ) : (
                         <ul className="space-y-1">
                             {leaderboard.map((entry, i) => (
@@ -252,7 +252,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                                         {i + 1}. {entry.gridSize}×{entry.gridSize}
                                     </span>
                                     <span className="font-mono">
-                                        {entry.moves} - {entry.time.toFixed(2)}s
+                                        {entry.moves}회 - {entry.time.toFixed(2)}초
                                     </span>
                                 </li>
                             ))}
@@ -273,7 +273,7 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                     onClick={() => scramble()}
                     className="px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg hover:from-purple-600 hover:to-pink-600 transition transform hover:scale-105"
                 >
-                    SCRAMBLE
+                    섞기
                 </button>
             </div>
 

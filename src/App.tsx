@@ -174,7 +174,7 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
         <div className="flex items-center justify-center gap-2 mb-8 sm:mb-10">
           <span className="text-yellow-300/80">✦</span>
           <p className="text-cyan-200/60 text-sm tracking-widest uppercase">
-            Happy Holidays & New Year 2025
+            Happy Holidays & New Year 2026
           </p>
           <span className="text-yellow-300/80">✦</span>
         </div>

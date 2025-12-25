@@ -77,31 +77,31 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                 <div className="bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-cyan-500/20">
                     <div className="text-4xl mb-2">🎄</div>
                     <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 mb-4">
-                        COMPLETE!
+                        완료!
                     </h1>
                     <div className="text-2xl mb-2 text-cyan-100">
-                        Time: <span className="font-mono text-yellow-300">{timeDisplay}</span>s
+                        시간: <span className="font-mono text-yellow-300">{timeDisplay}</span>초
                     </div>
-                    <div className="text-xl mb-6 text-cyan-200">Moves: {moveCount}</div>
+                    <div className="text-xl mb-6 text-cyan-200">횟수: {moveCount}회</div>
 
                     <div className="flex flex-col gap-3">
                         <button
                             onClick={() => scramble()}
                             className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-500 text-white text-lg rounded-full font-bold hover:from-red-500 hover:to-red-400 transition shadow-lg"
                         >
-                            Play Again
+                            다시 하기
                         </button>
                         <button
                             onClick={() => setShowLeaderboard(true)}
                             className="text-cyan-300 underline hover:text-cyan-100"
                         >
-                            View Leaderboard
+                            기록 보기
                         </button>
                         <button
                             onClick={onBack}
                             className="text-cyan-400/60 hover:text-cyan-300"
                         >
-                            Back to Menu
+                            메뉴로 돌아가기
                         </button>
                     </div>
                 </div>
@@ -115,9 +115,9 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                             >
                                 ×
                             </button>
-                            <h2 className="text-2xl font-bold mb-4 text-cyan-100">Leaderboard</h2>
+                            <h2 className="text-2xl font-bold mb-4 text-cyan-100">기록</h2>
                             {leaderboard.length === 0 ? (
-                                <p className="text-cyan-400/60">No records yet.</p>
+                                <p className="text-cyan-400/60">기록이 없습니다.</p>
                             ) : (
                                 <ul className="space-y-2">
                                     {leaderboard.map((entry, i) => (
@@ -129,7 +129,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                                                 {i + 1}. {entry.gridSize}×{entry.gridSize}
                                             </span>
                                             <span className="font-mono">
-                                                {entry.moves} moves / {entry.time.toFixed(2)}s
+                                                {entry.moves}회 / {entry.time.toFixed(2)}초
                                             </span>
                                         </li>
                                     ))}
@@ -151,7 +151,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                     {/* Header */}
                     <div className="flex items-center justify-between p-3 sm:p-4">
                         <h1 className="text-base sm:text-xl font-bold text-cyan-100">
-                            <span className="mr-2">🎄</span>Memory
+                            <span className="mr-2">🎄</span>메모리
                         </h1>
                         <button
                             onClick={() => setShowSettings(!showSettings)}
@@ -182,7 +182,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                         <div className="p-3 sm:p-4 border-t border-cyan-500/20 space-y-3">
                             {/* Grid Size */}
                             <div>
-                                <div className="text-xs text-cyan-400/60 mb-1.5">Grid Size</div>
+                                <div className="text-xs text-cyan-400/60 mb-1.5">크기</div>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => {
@@ -221,7 +221,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                                 }}
                                 className="w-full text-left text-sm text-cyan-300 active:text-cyan-100 py-1"
                             >
-                                📊 Leaderboard
+                                📊 기록
                             </button>
                         </div>
                     )}
@@ -230,13 +230,13 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                 {/* Right Panel - Stats */}
                 <div className="flex gap-2 sm:gap-3">
                     <div className="bg-gradient-to-b from-[#1a3a4a]/90 to-[#0f2937]/90 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-white backdrop-blur-md border border-cyan-500/20">
-                        <div className="text-xs sm:text-sm text-cyan-400/60 uppercase">Time</div>
+                        <div className="text-xs sm:text-sm text-cyan-400/60 uppercase">시간</div>
                         <div className="text-xl sm:text-3xl font-mono font-bold text-yellow-300">
                             {timeDisplay}
                         </div>
                     </div>
                     <div className="bg-gradient-to-b from-[#1a3a4a]/90 to-[#0f2937]/90 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-white backdrop-blur-md border border-cyan-500/20">
-                        <div className="text-xs sm:text-sm text-cyan-400/60 uppercase">Pairs</div>
+                        <div className="text-xs sm:text-sm text-cyan-400/60 uppercase">짝</div>
                         <div className="text-xl sm:text-2xl font-mono font-bold text-cyan-100">
                             {matchedPairs}/{totalPairs}
                         </div>
@@ -248,7 +248,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
             {showLeaderboard && (
                 <div className="absolute top-20 left-6 pointer-events-auto bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-4 rounded-xl w-72 shadow-xl z-50 border border-cyan-500/20">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold text-cyan-100">Leaderboard</h2>
+                        <h2 className="text-xl font-bold text-cyan-100">기록</h2>
                         <button
                             onClick={() => setShowLeaderboard(false)}
                             className="text-cyan-400/60 hover:text-cyan-100 text-xl font-bold leading-none"
@@ -257,7 +257,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                         </button>
                     </div>
                     {leaderboard.length === 0 ? (
-                        <p className="text-cyan-400/60 text-sm">No records.</p>
+                        <p className="text-cyan-400/60 text-sm">기록이 없습니다.</p>
                     ) : (
                         <ul className="space-y-1">
                             {leaderboard.map((entry, i) => (
@@ -269,7 +269,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                                         {i + 1}. {entry.gridSize}×{entry.gridSize}
                                     </span>
                                     <span className="font-mono">
-                                        {entry.moves} - {entry.time.toFixed(2)}s
+                                        {entry.moves}회 - {entry.time.toFixed(2)}초
                                     </span>
                                 </li>
                             ))}
@@ -285,14 +285,14 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                         {gridSize}×{gridSize}
                     </span>
                     <span>•</span>
-                    <span>Moves: {moveCount}</span>
+                    <span>횟수: {moveCount}</span>
                 </div>
 
                 <button
                     onClick={() => scramble()}
                     className="px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-red-600 to-green-600 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg hover:from-red-500 hover:to-green-500 transition transform hover:scale-105"
                 >
-                    🎄 NEW GAME
+                    🎄 새 게임
                 </button>
             </div>
 
