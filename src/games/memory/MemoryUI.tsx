@@ -30,9 +30,9 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
     const { celebrate } = useCelebration();
     const celebratedRef = useRef(false);
 
-    // Count matched pairs
+    // Count matched pairs (exclude empty card for 5x5)
     const matchedPairs = cards.filter(c => c.isMatched).length / 2;
-    const totalPairs = cards.length / 2;
+    const totalPairs = cards.filter(c => !c.isEmpty).length / 2;
 
     // Celebration effect when solved
     useEffect(() => {
@@ -221,16 +221,16 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                                     </button>
                                     <button
                                         onClick={() => {
-                                            setGridSize(6);
+                                            setGridSize(5);
                                             setShowSettings(false);
                                         }}
                                         className={`flex-1 py-2 text-sm font-bold rounded-lg transition ${
-                                            gridSize === 6
+                                            gridSize === 5
                                                 ? 'bg-red-500 text-white'
                                                 : 'bg-cyan-900/50 text-cyan-300'
                                         }`}
                                     >
-                                        6×6
+                                        5×5
                                     </button>
                                 </div>
                             </div>

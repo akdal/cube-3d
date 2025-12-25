@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// Winter/Christmas themed icons
+// Winter/Christmas themed icons (need 12 for 5x5 grid with center empty)
 const CARD_ICONS = [
     '🎄', // Christmas tree
     '⭐', // Star
@@ -22,6 +22,7 @@ interface Card {
     icon: string;
     isFlipped: boolean;
     isMatched: boolean;
+    isEmpty?: boolean; // For 5x5 grid center
 }
 
 interface LeaderboardEntry {
@@ -34,7 +35,7 @@ interface LeaderboardEntry {
 
 interface MemoryState {
     cards: Card[];
-    gridSize: 4 | 6; // 4x4 (8 pairs) or 6x6 (18 pairs)
+    gridSize: 4 | 5; // 4x4 (8 pairs) or 5x5 (12 pairs + 1 empty center)
     flippedCards: number[]; // indices of currently flipped cards
     moveCount: number;
     gameStatus: 'IDLE' | 'PLAYING' | 'SOLVED';
@@ -48,8 +49,8 @@ interface MemoryState {
 }
 
 interface MemoryActions {
-    initGame: (gridSize?: 4 | 6) => void;
-    setGridSize: (size: 4 | 6) => void;
+    initGame: (gridSize?: 4 | 5) => void;
+    setGridSize: (size: 4 | 5) => void;
     flipCard: (index: number) => void;
     checkMatch: () => void;
     scramble: () => void;
@@ -58,20 +59,43 @@ interface MemoryActions {
 }
 
 const createCards = (gridSize: number): Card[] => {
-    const pairCount = (gridSize * gridSize) / 2;
-    const icons = CARD_ICONS.slice(0, pairCount);
-
-    // Create pairs
     const cards: Card[] = [];
-    icons.forEach((icon, i) => {
-        cards.push({ id: i * 2, icon, isFlipped: false, isMatched: false });
-        cards.push({ id: i * 2 + 1, icon, isFlipped: false, isMatched: false });
-    });
 
-    // Shuffle
-    for (let i = cards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cards[i], cards[j]] = [cards[j], cards[i]];
+    if (gridSize === 5) {
+        // 5x5 grid: 25 slots, center is empty, 24 cards = 12 pairs
+        const pairCount = 12;
+        const icons = CARD_ICONS.slice(0, pairCount);
+
+        // Create pairs
+        icons.forEach((icon, i) => {
+            cards.push({ id: i * 2, icon, isFlipped: false, isMatched: false });
+            cards.push({ id: i * 2 + 1, icon, isFlipped: false, isMatched: false });
+        });
+
+        // Shuffle
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+
+        // Insert empty card at center (index 12 for 5x5 grid)
+        cards.splice(12, 0, { id: -1, icon: '', isFlipped: false, isMatched: false, isEmpty: true });
+    } else {
+        // 4x4 grid: 16 slots = 8 pairs
+        const pairCount = 8;
+        const icons = CARD_ICONS.slice(0, pairCount);
+
+        // Create pairs
+        icons.forEach((icon, i) => {
+            cards.push({ id: i * 2, icon, isFlipped: false, isMatched: false });
+            cards.push({ id: i * 2 + 1, icon, isFlipped: false, isMatched: false });
+        });
+
+        // Shuffle
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
     }
 
     return cards;
@@ -92,7 +116,7 @@ export const useMemoryStore = create<MemoryState & MemoryActions>()(
             hintCardIndices: [],
             hintCount: 0,
 
-            initGame: (gridSize?: 4 | 6) => {
+            initGame: (gridSize?: 4 | 5) => {
                 const size = gridSize ?? get().gridSize;
                 set({
                     cards: createCards(size),
@@ -108,7 +132,7 @@ export const useMemoryStore = create<MemoryState & MemoryActions>()(
                 });
             },
 
-            setGridSize: (size: 4 | 6) => {
+            setGridSize: (size: 4 | 5) => {
                 set({
                     gridSize: size,
                     cards: createCards(size),
@@ -142,6 +166,7 @@ export const useMemoryStore = create<MemoryState & MemoryActions>()(
                 const state = get();
                 if (state.isProcessing) return;
                 if (state.gameStatus === 'SOLVED') return;
+                if (state.cards[index].isEmpty) return; // Skip empty center card
                 if (state.cards[index].isFlipped || state.cards[index].isMatched) return;
                 if (state.flippedCards.length >= 2) return;
 
@@ -179,7 +204,7 @@ export const useMemoryStore = create<MemoryState & MemoryActions>()(
                     newCards[second] = { ...newCards[second], isFlipped: false };
                 }
 
-                const allMatched = newCards.every(card => card.isMatched);
+                const allMatched = newCards.every(card => card.isEmpty || card.isMatched);
                 const newMoveCount = state.moveCount + 1;
 
                 let newLeaderboard = state.leaderboard;
@@ -211,7 +236,7 @@ export const useMemoryStore = create<MemoryState & MemoryActions>()(
                 // Find unmatched cards and group by icon
                 const unmatchedByIcon: { [icon: string]: number[] } = {};
                 state.cards.forEach((card, index) => {
-                    if (!card.isMatched && !card.isFlipped) {
+                    if (!card.isEmpty && !card.isMatched && !card.isFlipped) {
                         if (!unmatchedByIcon[card.icon]) {
                             unmatchedByIcon[card.icon] = [];
                         }

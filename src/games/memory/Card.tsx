@@ -7,19 +7,25 @@ interface CardProps {
     icon: string;
     isFlipped: boolean;
     isMatched: boolean;
+    isEmpty?: boolean;
     isHint?: boolean;
     position: [number, number, number];
     onClick: () => void;
     gridSize: number;
 }
 
-export const Card = ({ icon, isFlipped, isMatched, isHint, position, onClick, gridSize }: CardProps) => {
+export const Card = ({ icon, isFlipped, isMatched, isEmpty, isHint, position, onClick, gridSize }: CardProps) => {
     const meshRef = useRef<Mesh>(null);
     const targetRotation = isFlipped || isMatched ? Math.PI : 0;
 
     // Card size based on grid
-    const cardSize = gridSize === 4 ? 0.9 : 0.6;
-    const fontSize = gridSize === 4 ? 0.4 : 0.28;
+    const cardSize = gridSize === 4 ? 0.9 : 0.75;
+    const fontSize = gridSize === 4 ? 0.4 : 0.35;
+
+    // Don't render empty cards (center of 5x5 grid)
+    if (isEmpty) {
+        return null;
+    }
 
     useFrame(() => {
         if (meshRef.current) {
