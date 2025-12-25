@@ -213,12 +213,11 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
 
         {/* Current Date & Time - spans both columns */}
         <div className="max-w-2xl mx-auto mb-4">
-          <div className="flex items-center justify-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-            <span className="text-cyan-200/80 text-xs sm:text-sm tracking-wider">
-              {year}.{month}.{day} ({weekday})
+          <div className="flex items-center justify-center gap-4 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <span className="text-lg sm:text-xl font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-white">
+              {year}.{month}.{day} <span className="text-cyan-400/80">({weekday})</span>
             </span>
-            <span className="text-cyan-400/40">|</span>
-            <span className="text-xl sm:text-2xl font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-white">
+            <span className="text-lg sm:text-xl font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-white">
               {hours}:{minutes}:<span className="text-cyan-400/80">{seconds}</span>
             </span>
           </div>
