@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { Vector3 } from 'three';
 import { Cube } from './components/Cube';
 import { UI } from './components/UI';
@@ -32,28 +32,26 @@ function Scene() {
     <>
       <GameBackground />
 
-      {/* Ambient light for base illumination */}
-      <ambientLight intensity={0.4} />
+      {/* Ambient light for even base illumination */}
+      <ambientLight intensity={0.6} />
 
       {/* Key light - main light source */}
       <directionalLight
         position={[5, 8, 5]}
-        intensity={1.2}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
+        intensity={0.8}
       />
 
       {/* Fill light - softer, from opposite side */}
       <directionalLight
         position={[-5, 3, -5]}
-        intensity={0.4}
+        intensity={0.5}
       />
 
-      {/* Rim light - adds depth */}
-      <pointLight position={[0, -5, 0]} intensity={0.3} color="#4fc3f7" />
-
-      {/* Environment for realistic reflections */}
-      <Environment preset="city" />
+      {/* Bottom fill light */}
+      <directionalLight
+        position={[0, -5, 3]}
+        intensity={0.3}
+      />
 
       <Cube />
 

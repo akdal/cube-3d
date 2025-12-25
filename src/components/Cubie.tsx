@@ -26,15 +26,15 @@ const COLORS = {
 // Shared geometry for all cubies
 const boxGeometry = new BoxGeometry(0.93, 0.93, 0.93);
 
-// Material settings for glossy plastic look
+// Material settings - matte plastic look with subtle sheen
 const createMaterial = (color: string, isCore: boolean) => {
     return new MeshPhysicalMaterial({
         color,
         metalness: 0.0,
-        roughness: isCore ? 0.6 : 0.15,
-        clearcoat: isCore ? 0 : 0.8,
-        clearcoatRoughness: 0.2,
-        reflectivity: 0.5,
+        roughness: isCore ? 0.7 : 0.4,
+        clearcoat: isCore ? 0 : 0.2,
+        clearcoatRoughness: 0.4,
+        reflectivity: 0.1,
     });
 };
 
