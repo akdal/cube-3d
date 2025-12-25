@@ -2,6 +2,58 @@
 
 ## 완료된 작업 (Completed Tasks)
 
+### 2025-12-25: NEW Badges & 2048 Mobile UX Improvements
+
+**목표 (Goal)**: 신규 게임에 NEW 배지 추가 및 2048 게임 모바일 사용성 개선
+
+**구현 내용 (Implementation)**:
+
+#### NEW Badge Feature
+- **시각적 신규 게임 표시**:
+  - Tree Lights, Color Mix, 2048 게임 카드에 NEW 배지 추가
+  - 빨간색 그라디언트 (red-500 to red-600) 배지
+  - 애니메이션 효과 (animate-pulse)로 시선 유도
+  - 카드 우측 상단에 배치 (absolute positioning)
+
+#### 2048 Mobile UX Improvements
+- **고정 카메라 뷰**:
+  - OrbitControls 제거하여 일관된 top-down 시점 제공
+  - 모바일에서 혼란스러운 카메라 조작 방지
+  - View Reset 버튼 제거 (더 이상 필요 없음)
+
+- **터치 이벤트 최적화**:
+  - `touchmove` 이벤트에 scroll prevention 추가
+  - 스와이프 감지 임계값 50px → 30px로 감소 (더 민감한 반응)
+  - 스와이프 시작 감지 로직 개선 (10px threshold)
+  - passive: false로 설정하여 preventDefault() 작동 보장
+
+- **상태 관리 정리**:
+  - `viewResetRequested` 상태 및 관련 액션 제거
+  - `use2048Store.ts`에서 불필요한 코드 정리
+  - React imports 통합 (Game2048UI.tsx)
+
+**결과 (Result)**:
+- 신규 게임 발견성 향상 (시각적 배지)
+- 2048 게임 모바일 플레이 경험 대폭 개선
+- 스와이프 제스처 반응성 향상
+- 의도하지 않은 페이지 스크롤 방지
+- 코드베이스 정리 및 불필요한 상태 제거
+
+**배포 정보 (Deployment)**:
+- 커밋: d3f5d6b
+- 배포 URL: https://roha-puzzle.vercel.app
+- 배포 ID: 6jxSJVYsYGBxqUSqXFQQaePaCjY2
+- 배포 시각: 2025-12-25
+
+**관련 파일 (Related Files)**:
+- `/Users/hwijin/Projects/roha-puzzle/src/App.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/game2048/index.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/game2048/Game2048.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/game2048/Game2048UI.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/game2048/use2048Store.ts`
+
+---
+
 ### 2025-12-25: Line Connect (Dots and Boxes) Game
 
 **목표 (Goal)**: 2인용 전략 게임 "라인 커넥트" 추가로 게임 컬렉션 확장
