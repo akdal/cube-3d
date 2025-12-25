@@ -10,6 +10,8 @@ interface CubieProps {
     onPointerDown?: (e: ThreeEvent<PointerEvent>) => void;
     onPointerMove?: (e: ThreeEvent<PointerEvent>) => void;
     onPointerUp?: (e: ThreeEvent<PointerEvent>) => void;
+    onPointerEnter?: (e: ThreeEvent<PointerEvent>) => void;
+    onPointerLeave?: (e: ThreeEvent<PointerEvent>) => void;
 }
 
 // Vibrant, saturated colors
@@ -45,7 +47,9 @@ export const Cubie = ({
     cubeSize,
     onPointerDown,
     onPointerMove,
-    onPointerUp
+    onPointerUp,
+    onPointerEnter,
+    onPointerLeave
 }: CubieProps) => {
     const [ox, oy, oz] = originalPosition;
 
@@ -73,6 +77,8 @@ export const Cubie = ({
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
+                onPointerEnter={onPointerEnter}
+                onPointerLeave={onPointerLeave}
             />
         </group>
     );

@@ -56,27 +56,43 @@ export const HanoiUI = ({ onBack }: HanoiUIProps) => {
     // Solved screen - Winter theme
     if (gameStatus === 'SOLVED') {
         const isPerfect = moveCount === minMoves;
+        const currentTime = startTime ? (now - startTime) / 1000 : 0;
+
+        // Check if this is a new record (best time for same disk count)
+        const sameDisksRecords = leaderboard.filter(e => e.diskCount === diskCount);
+        const isNewRecord = sameDisksRecords.length <= 1 ||
+            (sameDisksRecords.length > 1 && currentTime < sameDisksRecords[1].time);
+
         return (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#0a1628]/95 to-[#1a3a4a]/95 backdrop-blur-sm">
                 <div className="bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-cyan-500/20">
-                    <div className="text-4xl mb-2">🎄</div>
-                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 mb-4">
-                        {isPerfect ? '완벽!' : '성공!'}
+                    <div className="text-4xl mb-2">{isNewRecord ? '🏆' : '🎄'}</div>
+                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 mb-2">
+                        {isNewRecord ? '새로운 기록!' : isPerfect ? '완벽해요!' : '잘했어요!'}
                     </h1>
-                    <div className="text-2xl mb-2 text-cyan-100">
-                        시간: <span className="font-mono text-yellow-300">{timeDisplay}</span>초
-                    </div>
-                    <div className="text-xl mb-2 text-cyan-200">
-                        횟수: {moveCount} / {minMoves}
+                    <p className="text-lg text-cyan-200 mb-4">
+                        {isNewRecord
+                            ? `${diskCount}개 원반을 ${timeDisplay}초 만에 옮겼어요!`
+                            : isPerfect
+                                ? `최소 횟수로 완료했어요!`
+                                : `${diskCount}개의 원반을 모두 옮겼어요!`
+                        }
+                    </p>
+                    <div className="bg-cyan-900/30 rounded-xl p-4 mb-4">
+                        <div className="flex justify-center gap-6 text-sm">
+                            <div>
+                                <div className="text-cyan-400/60">시간</div>
+                                <div className="text-xl font-mono font-bold text-yellow-300">{timeDisplay}초</div>
+                            </div>
+                            <div>
+                                <div className="text-cyan-400/60">횟수</div>
+                                <div className="text-xl font-mono font-bold text-cyan-100">{moveCount}/{minMoves}</div>
+                            </div>
+                        </div>
                     </div>
                     {hintCount > 0 && (
                         <div className="text-purple-400 text-sm mb-2">
-                            💡 힌트 사용: {hintCount}회
-                        </div>
-                    )}
-                    {isPerfect && (
-                        <div className="text-yellow-400 text-lg mb-4">
-                            최소 횟수 달성!
+                            💡 힌트를 {hintCount}번 사용했어요
                         </div>
                     )}
 

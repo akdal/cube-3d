@@ -44,6 +44,7 @@ interface GameState {
     leaderboard: LeaderboardEntry[];
     theme: 'dark' | 'light' | 'blue';
     isDraggingCube: boolean;
+    isHoveringCube: boolean;
     invertControls: boolean;
     orbitLocked: boolean;
     cubeLocked: boolean;
@@ -66,6 +67,7 @@ interface Action {
     setDifficulty: (difficulty: 'easy' | 'medium' | 'hard') => void;
     setTheme: (theme: 'dark' | 'light' | 'blue') => void;
     setIsDraggingCube: (isDragging: boolean) => void;
+    setIsHoveringCube: (isHovering: boolean) => void;
     toggleInvertControls: () => void;
     toggleOrbitLock: () => void;
     toggleCubeLock: () => void;
@@ -144,6 +146,7 @@ export const useStore = create<GameState & Action>()(
             leaderboard: [],
             theme: 'dark',
             isDraggingCube: false,
+            isHoveringCube: false,
             invertControls: false,
             orbitLocked: false,
             cubeLocked: false,
@@ -177,6 +180,7 @@ export const useStore = create<GameState & Action>()(
             setDifficulty: (difficulty) => set({ difficulty }),
 
             setIsDraggingCube: (isDragging) => set({ isDraggingCube: isDragging }),
+            setIsHoveringCube: (isHovering) => set({ isHoveringCube: isHovering }),
 
             toggleInvertControls: () => set((state) => ({ invertControls: !state.invertControls })),
 

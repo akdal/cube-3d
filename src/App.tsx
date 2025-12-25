@@ -17,6 +17,7 @@ const DEFAULT_CAMERA_POSITION = new Vector3(5, 5, 5);
 
 function RubiksScene() {
   const isDraggingCube = useStore((s) => s.isDraggingCube);
+  const isHoveringCube = useStore((s) => s.isHoveringCube);
   const orbitLocked = useStore((s) => s.orbitLocked);
   const viewResetRequested = useStore((s) => s.viewResetRequested);
   const clearViewReset = useStore((s) => s.clearViewReset);
@@ -67,7 +68,7 @@ function RubiksScene() {
         dampingFactor={0.05}
         minDistance={4}
         maxDistance={15}
-        enabled={!isDraggingCube && !orbitLocked}
+        enabled={!isDraggingCube && !isHoveringCube && !orbitLocked}
       />
     </>
   );

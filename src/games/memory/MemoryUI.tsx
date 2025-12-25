@@ -59,6 +59,13 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
 
     // Solved screen with winter theme
     if (gameStatus === 'SOLVED') {
+        const currentTime = startTime ? (now - startTime) / 1000 : 0;
+
+        // Check if this is a new record (best time for same grid size)
+        const sameGridRecords = leaderboard.filter(e => e.gridSize === gridSize);
+        const isNewRecord = sameGridRecords.length <= 1 ||
+            (sameGridRecords.length > 1 && currentTime < sameGridRecords[1].time);
+
         return (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#0a1628]/95 to-[#1a3a4a]/95 backdrop-blur-sm">
                 {/* Snowflakes decoration */}
@@ -80,17 +87,31 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                 </div>
 
                 <div className="bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-cyan-500/20">
-                    <div className="text-4xl mb-2">🎄</div>
-                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 mb-4">
-                        성공!
+                    <div className="text-4xl mb-2">{isNewRecord ? '🏆' : '🎄'}</div>
+                    <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 mb-2">
+                        {isNewRecord ? '새로운 기록!' : '잘했어요!'}
                     </h1>
-                    <div className="text-2xl mb-2 text-cyan-100">
-                        시간: <span className="font-mono text-yellow-300">{timeDisplay}</span>초
+                    <p className="text-lg text-cyan-200 mb-4">
+                        {isNewRecord
+                            ? `${totalPairs}쌍의 카드를 ${timeDisplay}초 만에 찾았어요!`
+                            : `${totalPairs}쌍의 카드를 모두 찾았어요!`
+                        }
+                    </p>
+                    <div className="bg-cyan-900/30 rounded-xl p-4 mb-4">
+                        <div className="flex justify-center gap-6 text-sm">
+                            <div>
+                                <div className="text-cyan-400/60">시간</div>
+                                <div className="text-xl font-mono font-bold text-yellow-300">{timeDisplay}초</div>
+                            </div>
+                            <div>
+                                <div className="text-cyan-400/60">횟수</div>
+                                <div className="text-xl font-mono font-bold text-cyan-100">{moveCount}회</div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="text-xl mb-2 text-cyan-200">횟수: {moveCount}회</div>
                     {hintCount > 0 && (
-                        <div className="text-purple-400 text-sm mb-4">
-                            💡 힌트 사용: {hintCount}회
+                        <div className="text-purple-400 text-sm mb-2">
+                            💡 힌트를 {hintCount}번 사용했어요
                         </div>
                     )}
 

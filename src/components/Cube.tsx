@@ -23,11 +23,14 @@ interface AnimationState {
 }
 
 export const Cube: React.FC = () => {
-    const { cubies, animation, triggerRotation, finishRotation, cubeSize } = useStore();
+    const { cubies, animation, triggerRotation, finishRotation, cubeSize, setIsHoveringCube } = useStore();
     const groupRef = useRef<Group>(null);
     const [progress, setProgress] = useState(0);
 
     const { onPointerDown, onPointerMove, onPointerUp } = useCubeInteraction();
+
+    const handlePointerEnter = () => setIsHoveringCube(true);
+    const handlePointerLeave = () => setIsHoveringCube(false);
 
     // Keyboard controls
     useEffect(() => {
@@ -71,6 +74,8 @@ export const Cube: React.FC = () => {
                     onPointerDown={(e: ThreeEvent<PointerEvent>) => onPointerDown(e, cubie.position)}
                     onPointerMove={onPointerMove}
                     onPointerUp={onPointerUp}
+                    onPointerEnter={handlePointerEnter}
+                    onPointerLeave={handlePointerLeave}
                 />
             ))}
         </group>
@@ -85,7 +90,9 @@ const CubieWrapper: React.FC<{
     onPointerDown: (e: ThreeEvent<PointerEvent>) => void;
     onPointerMove: (e: ThreeEvent<PointerEvent>) => void;
     onPointerUp: (e: ThreeEvent<PointerEvent>) => void;
-}> = ({ cubie, animation, progress, cubeSize, onPointerDown, onPointerMove, onPointerUp }) => {
+    onPointerEnter: () => void;
+    onPointerLeave: () => void;
+}> = ({ cubie, animation, progress, cubeSize, onPointerDown, onPointerMove, onPointerUp, onPointerEnter, onPointerLeave }) => {
     const groupRef = useRef<Group>(null);
 
     // Use tolerance for layer matching (works for both 2x2 and 3x3)
@@ -125,6 +132,8 @@ const CubieWrapper: React.FC<{
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
+                onPointerEnter={onPointerEnter}
+                onPointerLeave={onPointerLeave}
             />
         </group>
     );
