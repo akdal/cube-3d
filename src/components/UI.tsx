@@ -18,7 +18,6 @@ export const UI = ({ onBack }: UIProps) => {
         toggleOrbitLock,
         cubeLocked,
         toggleCubeLock,
-        requestViewReset,
         cubeSize,
         setCubeSize,
         difficulty,
@@ -171,24 +170,17 @@ export const UI = ({ onBack }: UIProps) => {
                             <span className="text-xl sm:text-2xl">{cubeLocked ? '🔒' : '🎲'}</span>
                         </button>
                         <button
-                            onClick={requestViewReset}
-                            className="flex-1 py-3 sm:py-4 text-center text-cyan-300 active:bg-cyan-500/10 transition"
-                            title="3D 뷰 초기화"
+                            onClick={() => scramble()}
+                            className="flex-1 py-3 sm:py-4 text-center text-yellow-400 active:bg-cyan-500/10 transition font-bold text-sm"
+                            title="새 게임"
                         >
-                            <span className="text-xl sm:text-2xl">🔄</span>
+                            NEW
                         </button>
                     </div>
 
                     {/* Settings */}
                     {showSettings && (
                         <div className="p-3 sm:p-4 border-t border-cyan-500/20 space-y-3">
-                            {/* New Game */}
-                            <button
-                                onClick={() => { scramble(); setShowSettings(false); }}
-                                className="w-full text-left text-sm text-cyan-300 active:text-cyan-100 py-1"
-                            >
-                                🎮 새 게임
-                            </button>
                             {/* Cube Size */}
                             <div>
                                 <div className="text-xs text-cyan-400/60 mb-1.5">크기</div>
@@ -259,7 +251,7 @@ export const UI = ({ onBack }: UIProps) => {
                                 className="text-sm sm:text-base hover:text-cyan-300 transition"
                                 title={hideTimer ? '시간 보기' : '시간 숨기기'}
                             >
-                                {hideTimer ? '🙈' : '👁️'}
+                                {hideTimer ? '😎' : '🙂'}
                             </button>
                         </div>
                         <div className="text-xl sm:text-3xl font-mono font-bold text-yellow-300">

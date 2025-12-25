@@ -187,16 +187,6 @@ export const LightsUI = ({ onBack }: LightsUIProps) => {
                     {/* Settings */}
                     {showSettings && (
                         <div className="p-3 sm:p-4 border-t border-cyan-500/20 space-y-3">
-                            {/* New Game */}
-                            <button
-                                onClick={() => {
-                                    initGame();
-                                    setShowSettings(false);
-                                }}
-                                className="w-full text-left text-sm text-cyan-300 active:text-cyan-100 py-1"
-                            >
-                                🎮 새 게임
-                            </button>
                             {/* Grid Size */}
                             <div>
                                 <div className="text-xs text-cyan-400/60 mb-1.5">크기</div>
