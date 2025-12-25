@@ -2,6 +2,51 @@
 
 ## 완료된 작업 (Completed Tasks)
 
+### 2025-12-25: UI Consistency Improvements
+
+**목표 (Goal)**: 모든 게임에서 버튼 배치를 통일하여 일관된 사용자 경험 제공
+
+**구현 내용 (Implementation)**:
+
+#### Button Layout Standardization
+- **"새 게임" 버튼 이동**:
+  - 모든 게임에서 하단의 큰 "새 게임" 버튼을 설정 메뉴로 이동
+  - 설정 창에 통일된 "🎮 새 게임" 옵션 추가
+  - 화면 하단 공간 정리 및 시각적 혼잡도 감소
+
+- **힌트 버튼 재배치**:
+  - ColorUI: 힌트 및 섞기 버튼을 하단 액션 영역으로 이동
+  - HanoiUI: 힌트 버튼을 상단에서 하단으로 이동
+  - PuzzleUI: 힌트 버튼을 상단에서 하단으로 이동
+  - MemoryUI: 힌트 버튼을 상단에서 하단으로 이동
+  - LightsUI: 새 게임 버튼을 설정으로 통합
+
+- **루빅스 큐브 (UI.tsx)**:
+  - 새 게임 버튼을 설정 메뉴로 이동
+  - 하단에 큐브 크기 및 난이도 정보 유지
+
+**결과 (Result)**:
+- 모든 게임에서 일관된 버튼 배치 및 UI 구조
+- 설정 메뉴를 통한 통일된 게임 시작 경험
+- 액션 버튼(힌트 등)은 하단에 배치하여 접근성 향상
+- 화면 하단 공간 정리로 더 깔끔한 인터페이스
+
+**배포 정보 (Deployment)**:
+- 커밋: 8e1124a
+- 배포 URL: https://roha-puzzle.vercel.app
+- 배포 ID: GkHJEbmZH2Xb2vmfQ8MCXj4Wyf1J
+- 배포 시각: 2025-12-25
+
+**관련 파일 (Related Files)**:
+- `/Users/hwijin/Projects/roha-puzzle/src/components/UI.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/color/ColorUI.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/hanoi/HanoiUI.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/lights/LightsUI.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/memory/MemoryUI.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/puzzle/PuzzleUI.tsx`
+
+---
+
 ### 2025-12-25: View Reset & Visual Enhancements
 
 **목표 (Goal)**: 모든 게임에 카메라 뷰 리셋 기능 추가 및 하노이 탑 시각 피드백 개선
