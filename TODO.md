@@ -2,35 +2,64 @@
 
 ## 완료된 작업 (Completed Tasks)
 
-### 2025-12-25: Hanoi Tower Visual Improvement
+### 2025-12-25: View Reset & Visual Enhancements
 
-**목표 (Goal)**: 하노이 탑 게임의 디스크와 기둥 선택/힌트 시각 피드백 개선
+**목표 (Goal)**: 모든 게임에 카메라 뷰 리셋 기능 추가 및 하노이 탑 시각 피드백 개선
 
 **구현 내용 (Implementation)**:
 
-#### Disk.tsx 변경사항
-- 선택된 디스크에 바운스 애니메이션 추가 (사인파, +0.15 오프셋)
-- 힌트 디스크에 더 역동적인 바운스 효과 (+0.2 오프셋)
-- 선택/힌트 디스크 아래에 글로우 링 추가 (RingGeometry 사용)
-- 맥동하는 emissive intensity 애니메이션 구현
-- 선택 상태: 앰버 글로우 (#fbbf24)
-- 힌트 상태: 시안 글로우 (#22d3ee)
+#### View Reset Feature (모든 게임)
+- Hanoi, Memory, Puzzle 게임에 카메라 뷰 리셋 기능 구현
+- 각 게임 스토어에 `viewResetRequested` 상태 추가
+- OrbitControls ref를 통한 프로그래매틱 카메라 리셋
+- 기본 카메라 위치로 부드럽게 복귀
+- OrbitControls 제약 조건 개선 (줌, 회전 각도 제한)
 
-#### Peg.tsx 변경사항
-- 기둥 베이스 주변에 선택/힌트 링 효과 추가
-- useFrame을 사용한 맥동 emissive 애니메이션 구현
-- 힌트 출발지: 골드 펄스 (#fbbf24)
-- 힌트 목적지: 시안 펄스 (#22d3ee)
-- 선택된 기둥: 미묘한 앰버 펄스
+#### Hanoi Tower Visual Improvements
+- **Disk.tsx 변경사항**:
+  - 선택된 디스크에 바운스 애니메이션 추가 (사인파, +0.15 오프셋)
+  - 힌트 디스크에 더 역동적인 바운스 효과 (+0.2 오프셋)
+  - 선택/힌트 디스크 아래에 글로우 링 추가 (RingGeometry 사용)
+  - 맥동하는 emissive intensity 애니메이션 구현
+  - 선택 상태: 앰버 글로우 (#fbbf24)
+  - 힌트 상태: 시안 글로우 (#22d3ee)
+
+- **Peg.tsx 변경사항**:
+  - 기둥 베이스 주변에 선택/힌트 링 효과 추가
+  - useFrame을 사용한 맥동 emissive 애니메이션 구현
+  - 힌트 출발지: 골드 펄스 (#fbbf24)
+  - 힌트 목적지: 시안 펄스 (#22d3ee)
+  - 선택된 기둥: 미묘한 앰버 펄스
+
+#### Project Assets
+- TODO.md 추가 (프로젝트 추적 문서)
+- favicon.svg 추가
+- og-image.svg 추가
 
 **결과 (Result)**:
+- 모든 게임에서 카메라 위치 리셋 가능 (설정 창에서 "뷰 리셋" 버튼)
 - 사용자가 어떤 디스크/기둥이 선택되었는지 명확히 인지 가능
 - 힌트 시스템이 시각적으로 더욱 직관적으로 작동
 - 게임 플레이 경험 향상 및 시각적 피드백 개선
+- 프로젝트 브랜딩 에셋 추가 완료
+
+**배포 정보 (Deployment)**:
+- 커밋: e58b385
+- 배포 URL: https://roha-puzzle.vercel.app
+- 배포 시각: 2025-12-25 16:27 KST
 
 **관련 파일 (Related Files)**:
-- `/Users/hwijin/Projects/cube-3d/src/games/hanoi/Disk.tsx`
-- `/Users/hwijin/Projects/cube-3d/src/games/hanoi/Peg.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/hanoi/Disk.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/hanoi/Peg.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/hanoi/index.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/hanoi/useHanoiStore.ts`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/memory/index.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/memory/useMemoryStore.ts`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/puzzle/index.tsx`
+- `/Users/hwijin/Projects/roha-puzzle/src/games/puzzle/usePuzzleStore.ts`
+- `/Users/hwijin/Projects/roha-puzzle/TODO.md` (신규)
+- `/Users/hwijin/Projects/roha-puzzle/public/favicon.svg` (신규)
+- `/Users/hwijin/Projects/roha-puzzle/public/og-image.svg` (신규)
 
 ---
 
@@ -139,5 +168,5 @@
 
 ## 참고 사항 (Notes)
 
-- 프로덕션 도메인: `3d-puzzle-roha.vercel.app`
+- 프로덕션 도메인: `roha-puzzle.vercel.app`
 - 배포 명령: `npx vercel --prod --yes`
