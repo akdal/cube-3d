@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useStore } from '../store/useStore';
 
-export const UI = () => {
+interface UIProps {
+    onBack?: () => void;
+}
+
+export const UI = ({ onBack }: UIProps) => {
     const {
         gameStatus,
         startTime,
@@ -107,6 +111,14 @@ export const UI = () => {
 
                     {/* Quick Lock Buttons - Always visible */}
                     <div className="flex border-t border-white/10">
+                        {onBack && (
+                            <button
+                                onClick={onBack}
+                                className="flex-1 py-3 sm:py-4 text-center text-gray-300 active:bg-white/10 transition border-r border-white/10"
+                            >
+                                <span className="text-xl sm:text-2xl">←</span>
+                            </button>
+                        )}
                         <button
                             onClick={toggleOrbitLock}
                             className={`flex-1 py-3 sm:py-4 text-center transition border-r border-white/10 ${
