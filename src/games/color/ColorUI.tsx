@@ -303,7 +303,7 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
             {/* Difficulty Modal */}
             {showDifficulty && (
                 <div className="absolute top-20 left-6 pointer-events-auto bg-gradient-to-b from-[#1a3a4a] to-[#0f2937] p-4 rounded-xl w-72 shadow-xl z-50 border border-cyan-500/20">
-                    <div className="flex justify-between items-center mb-4">
+                    <div className="flex justify-between items-center mb-2">
                         <h2 className="text-xl font-bold text-cyan-100">난이도 선택</h2>
                         <button
                             onClick={() => setShowDifficulty(false)}
@@ -312,6 +312,7 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
                             ×
                         </button>
                     </div>
+                    <p className="text-xs text-cyan-400/50 mb-3">각 난이도별 레벨은 무제한입니다 ∞</p>
                     <div className="space-y-2">
                         {(Object.keys(DIFFICULTY_LABELS) as Difficulty[]).map((diff) => {
                             const label = DIFFICULTY_LABELS[diff];
