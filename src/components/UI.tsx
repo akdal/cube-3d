@@ -24,11 +24,6 @@ export const UI = ({ onBack }: UIProps) => {
         setCubeSize,
         difficulty,
         setDifficulty,
-        hintCount,
-        showHint,
-        hintActive,
-        animation,
-        solutionMoves,
     } = useStore();
 
     const [showLeaderboard, setShowLeaderboard] = useState(false);
@@ -65,12 +60,7 @@ export const UI = ({ onBack }: UIProps) => {
                 <div className="bg-white p-8 rounded-2xl shadow-2xl text-center animate-bounce-in max-w-sm w-full">
                     <h1 className="text-4xl font-bold text-green-600 mb-4">완료!</h1>
                     <div className="text-2xl mb-2">시간: <span className="font-mono">{timeDisplay}</span>초</div>
-                    <div className="text-xl mb-2">횟수: {moveCount}회</div>
-                    {hintCount > 0 && (
-                        <div className="text-purple-500 text-sm mb-4">
-                            💡 힌트 사용: {hintCount}회
-                        </div>
-                    )}
+                    <div className="text-xl mb-4">횟수: {moveCount}회</div>
 
                     <div className="flex flex-col gap-3">
                         <button
@@ -100,7 +90,6 @@ export const UI = ({ onBack }: UIProps) => {
                                         <li key={i} className="flex justify-between border-b pb-1">
                                             <span>
                                                 {i + 1}. {new Date(entry.date).toLocaleDateString()}
-                                                {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
                                             </span>
                                             <span className="font-mono font-bold">{entry.time.toFixed(2)}초</span>
                                         </li>
@@ -163,20 +152,9 @@ export const UI = ({ onBack }: UIProps) => {
                         </button>
                         <button
                             onClick={requestViewReset}
-                            className="flex-1 py-3 sm:py-4 text-center text-gray-300 active:bg-white/10 transition border-r border-white/10"
+                            className="flex-1 py-3 sm:py-4 text-center text-gray-300 active:bg-white/10 transition"
                         >
                             <span className="text-xl sm:text-2xl">↺</span>
-                        </button>
-                        <button
-                            onClick={showHint}
-                            disabled={hintActive || animation.isAnimating || solutionMoves.length === 0}
-                            className={`flex-1 py-3 sm:py-4 text-center transition ${
-                                hintActive || animation.isAnimating || solutionMoves.length === 0
-                                    ? 'text-gray-600 cursor-not-allowed'
-                                    : 'text-yellow-400 active:bg-white/10'
-                            }`}
-                        >
-                            <span className="text-xl sm:text-2xl">💡</span>
                         </button>
                     </div>
 
@@ -290,7 +268,6 @@ export const UI = ({ onBack }: UIProps) => {
                                 <li key={i} className="flex justify-between border-b border-gray-200 pb-1 text-sm text-black">
                                     <span>
                                         {i + 1}. {entry.time.toFixed(2)}초
-                                        {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
                                     </span>
                                     <span className="text-gray-500 text-xs">{new Date(entry.date).toLocaleDateString()}</span>
                                 </li>

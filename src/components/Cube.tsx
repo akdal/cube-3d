@@ -23,7 +23,7 @@ interface AnimationState {
 }
 
 export const Cube: React.FC = () => {
-    const { cubies, animation, triggerRotation, finishRotation, cubeSize, hintActive, hintMove } = useStore();
+    const { cubies, animation, triggerRotation, finishRotation, cubeSize } = useStore();
     const groupRef = useRef<Group>(null);
     const [progress, setProgress] = useState(0);
 
@@ -61,29 +61,18 @@ export const Cube: React.FC = () => {
 
     return (
         <group ref={groupRef}>
-            {cubies.map((cubie) => {
-                // Check if this cubie is in the hint layer
-                const isHintCubie = hintActive && hintMove && (() => {
-                    const posVal = hintMove.axis === 'x' ? cubie.position[0]
-                                 : hintMove.axis === 'y' ? cubie.position[1]
-                                 : cubie.position[2];
-                    return Math.abs(posVal - hintMove.layer) < 0.1;
-                })();
-
-                return (
-                    <CubieWrapper
-                        key={cubie.id}
-                        cubie={cubie}
-                        animation={animation}
-                        progress={progress}
-                        cubeSize={cubeSize}
-                        isHint={isHintCubie || false}
-                        onPointerDown={(e: ThreeEvent<PointerEvent>) => onPointerDown(e, cubie.position)}
-                        onPointerMove={onPointerMove}
-                        onPointerUp={onPointerUp}
-                    />
-                );
-            })}
+            {cubies.map((cubie) => (
+                <CubieWrapper
+                    key={cubie.id}
+                    cubie={cubie}
+                    animation={animation}
+                    progress={progress}
+                    cubeSize={cubeSize}
+                    onPointerDown={(e: ThreeEvent<PointerEvent>) => onPointerDown(e, cubie.position)}
+                    onPointerMove={onPointerMove}
+                    onPointerUp={onPointerUp}
+                />
+            ))}
         </group>
     );
 };
@@ -93,11 +82,10 @@ const CubieWrapper: React.FC<{
     animation: AnimationState;
     progress: number;
     cubeSize: 2 | 3;
-    isHint: boolean;
     onPointerDown: (e: ThreeEvent<PointerEvent>) => void;
     onPointerMove: (e: ThreeEvent<PointerEvent>) => void;
     onPointerUp: (e: ThreeEvent<PointerEvent>) => void;
-}> = ({ cubie, animation, progress, cubeSize, isHint, onPointerDown, onPointerMove, onPointerUp }) => {
+}> = ({ cubie, animation, progress, cubeSize, onPointerDown, onPointerMove, onPointerUp }) => {
     const groupRef = useRef<Group>(null);
 
     // Use tolerance for layer matching (works for both 2x2 and 3x3)
@@ -134,7 +122,6 @@ const CubieWrapper: React.FC<{
                 rotation={[0, 0, 0, 1]}
                 originalPosition={cubie.originalPosition}
                 cubeSize={cubeSize}
-                isHint={isHint}
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
