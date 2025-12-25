@@ -82,72 +82,68 @@ const generateOptimalMoves = (n: number, from: number, to: number, aux: number):
     return moves;
 };
 
-// Calculate next optimal move from current state
+// Calculate next optimal move from ANY current state
+// Uses recursive Tower of Hanoi strategy
 const calculateNextMove = (pegs: number[][], diskCount: number): HintInfo | null => {
-    // Generate all optimal moves
-    const optimalMoves = generateOptimalMoves(diskCount, 0, 2, 1);
+    // Check if already solved
+    if (pegs[2].length === diskCount) return null;
 
-    // Simulate the optimal solution and find where current state matches
-    const simPegs: number[][] = [
-        Array.from({ length: diskCount }, (_, i) => diskCount - i),
-        [],
-        []
-    ];
-
-    // Check if current state matches initial state
-    const statesEqual = (a: number[][], b: number[][]): boolean => {
-        return a.every((peg, i) =>
-            peg.length === b[i].length && peg.every((disk, j) => disk === b[i][j])
-        );
+    // Helper: find which peg contains a disk
+    const findDisk = (disk: number): number => {
+        for (let p = 0; p < 3; p++) {
+            if (pegs[p].includes(disk)) return p;
+        }
+        return -1;
     };
 
-    if (statesEqual(pegs, simPegs)) {
-        // At initial state, return first move
-        const move = optimalMoves[0];
-        return { fromPeg: move.from, toPeg: move.to, disk: move.disk };
-    }
+    // Helper: check if disk is on top of its peg
+    const isTop = (disk: number): boolean => {
+        const peg = findDisk(disk);
+        return peg >= 0 && pegs[peg][pegs[peg].length - 1] === disk;
+    };
 
-    // Apply moves one by one until we match current state
-    for (let i = 0; i < optimalMoves.length; i++) {
-        const move = optimalMoves[i];
-        simPegs[move.from].pop();
-        simPegs[move.to].push(move.disk);
+    // Helper: check if disk can be placed on target peg
+    const canMoveTo = (disk: number, targetPeg: number): boolean => {
+        if (pegs[targetPeg].length === 0) return true;
+        return disk < pegs[targetPeg][pegs[targetPeg].length - 1];
+    };
 
-        if (statesEqual(pegs, simPegs)) {
-            // Found matching state, return next move
-            if (i + 1 < optimalMoves.length) {
-                const nextMove = optimalMoves[i + 1];
-                return { fromPeg: nextMove.from, toPeg: nextMove.to, disk: nextMove.disk };
-            }
-            return null; // Already at goal
+    // Recursive solver: move disks [start..end] to targetPeg
+    // Returns the next move to make progress toward this goal
+    const solve = (start: number, end: number, targetPeg: number): HintInfo | null => {
+        if (start > end) return null;
+
+        const endPeg = findDisk(end);
+
+        // If largest disk already on target, solve for remaining disks
+        if (endPeg === targetPeg) {
+            return solve(start, end - 1, targetPeg);
         }
-    }
 
-    // Current state doesn't match optimal path
-    // Fall back to finding any valid move that makes progress
-    // Prioritize moving smallest movable disk towards goal
-    for (let disk = 1; disk <= diskCount; disk++) {
-        // Find which peg has this disk on top
-        let fromPeg = -1;
-        for (let p = 0; p < 3; p++) {
-            if (pegs[p].length > 0 && pegs[p][pegs[p].length - 1] === disk) {
-                fromPeg = p;
-                break;
-            }
-        }
-        if (fromPeg === -1) continue;
+        // To move disk `end` from endPeg to targetPeg:
+        // First, all smaller disks [start..end-1] must be on auxiliary peg
+        const auxPeg = 3 - endPeg - targetPeg;
 
-        // Try to move to peg 2 (goal) first, then to other pegs
-        const targetOrder = fromPeg === 2 ? [1, 0] : [2, 1, 0].filter(p => p !== fromPeg);
-        for (const toPeg of targetOrder) {
-            const topDisk = pegs[toPeg].length > 0 ? pegs[toPeg][pegs[toPeg].length - 1] : Infinity;
-            if (disk < topDisk) {
-                return { fromPeg, toPeg, disk };
+        // Find the largest disk in [start, end-1] not on auxPeg
+        // Check from largest to smallest to prioritize moving larger disks first
+        for (let d = end - 1; d >= start; d--) {
+            if (findDisk(d) !== auxPeg) {
+                // This disk needs to move to auxPeg
+                return solve(start, d, auxPeg);
             }
         }
-    }
 
-    return null;
+        // All smaller disks are on auxPeg, now move disk `end`
+        if (isTop(end) && canMoveTo(end, targetPeg)) {
+            return { fromPeg: endPeg, toPeg: targetPeg, disk: end };
+        }
+
+        // Shouldn't reach here with valid Hanoi state
+        return null;
+    };
+
+    // Goal: move all disks [1..diskCount] to peg 2
+    return solve(1, diskCount, 2);
 };
 
 export const useHanoiStore = create<HanoiState & HanoiActions>()(
