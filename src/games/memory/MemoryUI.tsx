@@ -162,7 +162,7 @@ export const MemoryUI = ({ onBack }: MemoryUIProps) => {
                     {/* Header */}
                     <div className="flex items-center justify-between p-3 sm:p-4">
                         <h1 className="text-base sm:text-xl font-bold text-cyan-100">
-                            <span className="mr-2">🎄</span>메모리
+                            <span className="mr-2">🎄</span>메모리 카드
                         </h1>
                         <button
                             onClick={() => setShowSettings(!showSettings)}
