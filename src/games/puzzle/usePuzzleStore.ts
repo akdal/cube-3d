@@ -10,8 +10,8 @@ interface LeaderboardEntry {
 
 interface PuzzleState {
     // Game state
-    tiles: number[]; // 0 = empty, 1-8 or 1-15 = tile numbers
-    gridSize: 3 | 4;
+    tiles: number[]; // 0 = empty, 1-3, 1-8, or 1-15 = tile numbers
+    gridSize: 2 | 3 | 4;
     emptyIndex: number;
     moveCount: number;
 
@@ -27,8 +27,8 @@ interface PuzzleState {
 }
 
 interface PuzzleActions {
-    initGame: (gridSize?: 3 | 4) => void;
-    setGridSize: (size: 3 | 4) => void;
+    initGame: (gridSize?: 2 | 3 | 4) => void;
+    setGridSize: (size: 2 | 3 | 4) => void;
     moveTile: (index: number) => void;
     scramble: () => void;
 }
@@ -68,7 +68,7 @@ const shuffleTiles = (gridSize: number): { tiles: number[]; emptyIndex: number }
     let emptyIndex = tiles.length - 1;
 
     // Perform random valid moves (ensures solvability)
-    const moveCount = gridSize === 3 ? 100 : 200;
+    const moveCount = gridSize === 2 ? 30 : gridSize === 3 ? 100 : 200;
 
     for (let i = 0; i < moveCount; i++) {
         const neighbors = getNeighbors(emptyIndex, gridSize);
@@ -95,7 +95,7 @@ export const usePuzzleStore = create<PuzzleState & PuzzleActions>()(
             animatingTile: null,
             leaderboard: [],
 
-            initGame: (gridSize?: 3 | 4) => {
+            initGame: (gridSize?: 2 | 3 | 4) => {
                 const size = gridSize ?? get().gridSize;
                 set({
                     tiles: createSolvedState(size),
@@ -108,7 +108,7 @@ export const usePuzzleStore = create<PuzzleState & PuzzleActions>()(
                 });
             },
 
-            setGridSize: (size: 3 | 4) => {
+            setGridSize: (size: 2 | 3 | 4) => {
                 set({
                     gridSize: size,
                     tiles: createSolvedState(size),

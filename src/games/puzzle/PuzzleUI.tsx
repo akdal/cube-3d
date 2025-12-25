@@ -158,6 +158,19 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => {
+                                            setGridSize(2);
+                                            setShowSettings(false);
+                                        }}
+                                        className={`flex-1 py-2 text-sm font-bold rounded-lg transition ${
+                                            gridSize === 2
+                                                ? 'bg-yellow-500 text-black'
+                                                : 'bg-gray-700 text-gray-300'
+                                        }`}
+                                    >
+                                        2×2
+                                    </button>
+                                    <button
+                                        onClick={() => {
                                             setGridSize(3);
                                             setShowSettings(false);
                                         }}

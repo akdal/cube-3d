@@ -93,51 +93,93 @@ interface GameMenuProps {
 
 function GameMenu({ onSelectGame }: GameMenuProps) {
   return (
-    <div className="w-full h-full bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-900 flex items-center justify-center p-4">
-      <div className="text-center">
-        <h1 className="text-4xl sm:text-6xl font-bold text-white mb-3 drop-shadow-lg">
-          3D Puzzle Games
-        </h1>
-        <p className="text-purple-200 mb-8 sm:mb-12 text-lg">Choose a game to play</p>
+    <div className="w-full h-full bg-[#0a0a1a] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-500/5 rounded-full blur-3xl" />
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl">
+      {/* Grid pattern overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }}
+      />
+
+      <div className="text-center relative z-10">
+        {/* Dedication */}
+        <div className="mb-6">
+          <span className="text-pink-400/80 text-sm tracking-[0.3em] uppercase font-light">
+            for 로하
+          </span>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-5xl sm:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-violet-400 to-cyan-400 mb-4 tracking-tight">
+          PUZZLE
+        </h1>
+        <p className="text-white/40 mb-10 sm:mb-14 text-sm tracking-widest uppercase">
+          Select your challenge
+        </p>
+
+        {/* Game Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 max-w-4xl">
           {/* Rubik's Cube */}
           <button
             onClick={() => onSelectGame('rubiks')}
-            className="group bg-gradient-to-br from-red-500/20 to-orange-500/20 hover:from-red-500/40 hover:to-orange-500/40 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 transition-all hover:scale-105 hover:shadow-2xl"
+            className="group relative bg-gradient-to-b from-white/[0.08] to-transparent backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:border-orange-400/30 hover:bg-orange-500/5 hover:scale-[1.02] hover:-translate-y-1"
           >
-            <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🎲</div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">루빅스 큐브</h2>
-            <p className="text-orange-200 text-sm">2×2 & 3×3</p>
-            <p className="text-white/70 text-xs mt-3 leading-relaxed">
-              🎯 모든 면의 색상을 맞추세요
-            </p>
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                <span className="text-2xl sm:text-3xl">🎲</span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-1.5">루빅스 큐브</h2>
+              <p className="text-orange-300/70 text-xs font-medium mb-3">2×2 & 3×3</p>
+              <p className="text-white/40 text-xs leading-relaxed">
+                모든 면의 색상을 맞추세요
+              </p>
+            </div>
           </button>
 
           {/* Hanoi Tower */}
           <button
             onClick={() => onSelectGame('hanoi')}
-            className="group bg-gradient-to-br from-amber-500/20 to-yellow-500/20 hover:from-amber-500/40 hover:to-yellow-500/40 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 transition-all hover:scale-105 hover:shadow-2xl"
+            className="group relative bg-gradient-to-b from-white/[0.08] to-transparent backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:border-amber-400/30 hover:bg-amber-500/5 hover:scale-[1.02] hover:-translate-y-1"
           >
-            <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🗼</div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">하노이 탑</h2>
-            <p className="text-yellow-200 text-sm">3~7개 원반</p>
-            <p className="text-white/70 text-xs mt-3 leading-relaxed">
-              🎯 모든 원반을 오른쪽으로 옮기세요
-            </p>
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                <span className="text-2xl sm:text-3xl">🗼</span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-1.5">하노이 탑</h2>
+              <p className="text-amber-300/70 text-xs font-medium mb-3">3~7개 원반</p>
+              <p className="text-white/40 text-xs leading-relaxed">
+                모든 원반을 오른쪽으로 옮기세요
+              </p>
+            </div>
           </button>
 
           {/* Slide Puzzle */}
           <button
             onClick={() => onSelectGame('puzzle')}
-            className="group bg-gradient-to-br from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/40 hover:to-blue-500/40 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 transition-all hover:scale-105 hover:shadow-2xl"
+            className="group relative bg-gradient-to-b from-white/[0.08] to-transparent backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-500/5 hover:scale-[1.02] hover:-translate-y-1"
           >
-            <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🧩</div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">슬라이드 퍼즐</h2>
-            <p className="text-cyan-200 text-sm">3×3 & 4×4</p>
-            <p className="text-white/70 text-xs mt-3 leading-relaxed">
-              🎯 숫자를 순서대로 정렬하세요
-            </p>
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                <span className="text-2xl sm:text-3xl">🧩</span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-1.5">슬라이드 퍼즐</h2>
+              <p className="text-cyan-300/70 text-xs font-medium mb-3">2×2, 3×3 & 4×4</p>
+              <p className="text-white/40 text-xs leading-relaxed">
+                숫자를 순서대로 정렬하세요
+              </p>
+            </div>
           </button>
         </div>
       </div>
