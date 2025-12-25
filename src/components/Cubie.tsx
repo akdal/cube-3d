@@ -6,6 +6,7 @@ interface CubieProps {
     position: [number, number, number];
     rotation: [number, number, number, number];
     originalPosition: [number, number, number];
+    cubeSize: 2 | 3;
     onPointerDown?: (e: ThreeEvent<PointerEvent>) => void;
     onPointerMove?: (e: ThreeEvent<PointerEvent>) => void;
     onPointerUp?: (e: ThreeEvent<PointerEvent>) => void;
@@ -41,6 +42,7 @@ export const Cubie = ({
     position,
     rotation,
     originalPosition,
+    cubeSize,
     onPointerDown,
     onPointerMove,
     onPointerUp
@@ -49,16 +51,19 @@ export const Cubie = ({
 
     const quaternion = useMemo(() => new Quaternion(...rotation), [rotation]);
 
+    // Boundary value depends on cube size: 1 for 3x3, 0.5 for 2x2
+    const boundary = cubeSize === 2 ? 0.5 : 1;
+
     // Create materials array for 6 faces
     // BoxGeometry face order: +X, -X, +Y, -Y, +Z, -Z
     const materials = useMemo(() => [
-        createMaterial(ox === 1 ? COLORS.R : COLORS.CORE, ox !== 1),   // Right (+X)
-        createMaterial(ox === -1 ? COLORS.L : COLORS.CORE, ox !== -1), // Left (-X)
-        createMaterial(oy === 1 ? COLORS.U : COLORS.CORE, oy !== 1),   // Up (+Y)
-        createMaterial(oy === -1 ? COLORS.D : COLORS.CORE, oy !== -1), // Down (-Y)
-        createMaterial(oz === 1 ? COLORS.F : COLORS.CORE, oz !== 1),   // Front (+Z)
-        createMaterial(oz === -1 ? COLORS.B : COLORS.CORE, oz !== -1), // Back (-Z)
-    ], [ox, oy, oz]);
+        createMaterial(ox === boundary ? COLORS.R : COLORS.CORE, ox !== boundary),   // Right (+X)
+        createMaterial(ox === -boundary ? COLORS.L : COLORS.CORE, ox !== -boundary), // Left (-X)
+        createMaterial(oy === boundary ? COLORS.U : COLORS.CORE, oy !== boundary),   // Up (+Y)
+        createMaterial(oy === -boundary ? COLORS.D : COLORS.CORE, oy !== -boundary), // Down (-Y)
+        createMaterial(oz === boundary ? COLORS.F : COLORS.CORE, oz !== boundary),   // Front (+Z)
+        createMaterial(oz === -boundary ? COLORS.B : COLORS.CORE, oz !== -boundary), // Back (-Z)
+    ], [ox, oy, oz, boundary]);
 
     return (
         <group position={position} quaternion={quaternion}>

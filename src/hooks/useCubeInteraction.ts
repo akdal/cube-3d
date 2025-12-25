@@ -15,7 +15,7 @@ interface DragState {
 const isTouchDevice = () => 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 export const useCubeInteraction = () => {
-    const { triggerRotation, animation, setIsDraggingCube, invertControls, cubeLocked } = useStore();
+    const { triggerRotation, animation, setIsDraggingCube, invertControls, cubeLocked, cubeSize } = useStore();
     const dragRef = useRef<DragState | null>(null);
 
     // Cleanup on unmount
@@ -74,7 +74,7 @@ export const useCubeInteraction = () => {
         const camera = e.camera;
 
         // Calculate rotation based on drag direction
-        const rotation = calculateRotation(delta, cubieWorldPos, faceNormal, camera);
+        const rotation = calculateRotation(delta, cubieWorldPos, faceNormal, camera, cubeSize);
 
         if (rotation) {
             const finalDirection = invertControls ? rotation.direction : (rotation.direction * -1) as 1 | -1;
@@ -90,7 +90,7 @@ export const useCubeInteraction = () => {
                 // Ignore
             }
         }
-    }, [animation.isAnimating, triggerRotation, setIsDraggingCube, invertControls]);
+    }, [animation.isAnimating, triggerRotation, setIsDraggingCube, invertControls, cubeSize]);
 
     const onPointerUp = useCallback((e: ThreeEvent<PointerEvent>) => {
         if (dragRef.current) {
@@ -132,7 +132,8 @@ function calculateRotation(
     screenDelta: Vector2,
     cubiePos: Vector3,
     faceNormal: Vector3,
-    camera: Camera
+    camera: Camera,
+    cubeSize: 2 | 3
 ): { axis: Axis; layer: number; direction: 1 | -1 } | null {
 
     // Determine the two possible slide axes on this face
@@ -204,12 +205,15 @@ function calculateRotation(
         rotAxisSign = Math.sign(rotAxisVec.z);
     }
 
-    // Determine layer
-    const layer = Math.round(
-        rotAxis === 'x' ? cubiePos.x :
-        rotAxis === 'y' ? cubiePos.y :
-        cubiePos.z
-    );
+    // Determine layer based on cube size
+    const posValue = rotAxis === 'x' ? cubiePos.x :
+                     rotAxis === 'y' ? cubiePos.y :
+                     cubiePos.z;
+
+    // For 2x2: snap to -0.5 or 0.5, for 3x3: round to -1, 0, or 1
+    const layer = cubeSize === 2
+        ? (posValue < 0 ? -0.5 : 0.5)
+        : Math.round(posValue);
 
     // Direction based on cross product sign
     const direction = rotAxisSign > 0 ? 1 : -1;

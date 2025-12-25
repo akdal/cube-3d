@@ -26,6 +26,8 @@ interface LeaderboardEntry {
 
 interface GameState {
     cubies: CubieState[];
+    cubeSize: 2 | 3;
+    difficulty: 'easy' | 'medium' | 'hard';
     isSolving: boolean;
     gameStatus: 'IDLE' | 'RUNNING' | 'SOLVED';
     startTime: number | null;
@@ -45,8 +47,10 @@ interface Action {
     initCube: () => void;
     triggerRotation: (axis: Axis, layer: number, direction: 1 | -1, speed?: number) => void;
     finishRotation: () => void;
-    scramble: (count?: number) => void;
+    scramble: () => void;
     resetGame: () => void;
+    setCubeSize: (size: 2 | 3) => void;
+    setDifficulty: (difficulty: 'easy' | 'medium' | 'hard') => void;
     setTheme: (theme: 'dark' | 'light' | 'blue') => void;
     setIsDraggingCube: (isDragging: boolean) => void;
     toggleInvertControls: () => void;
@@ -56,22 +60,46 @@ interface Action {
     clearViewReset: () => void;
 }
 
-const generateCubies = (): CubieState[] => {
+const generateCubies = (size: 2 | 3): CubieState[] => {
     const cubies: CubieState[] = [];
     let id = 0;
-    for (let x = -1; x <= 1; x++) {
-        for (let y = -1; y <= 1; y++) {
-            for (let z = -1; z <= 1; z++) {
-                cubies.push({
-                    id: id++,
-                    position: [x, y, z],
-                    rotation: [0, 0, 0, 1],
-                    originalPosition: [x, y, z]
-                });
+
+    if (size === 2) {
+        // 2x2 cube: positions at -0.5 and 0.5
+        for (const x of [-0.5, 0.5]) {
+            for (const y of [-0.5, 0.5]) {
+                for (const z of [-0.5, 0.5]) {
+                    cubies.push({
+                        id: id++,
+                        position: [x, y, z],
+                        rotation: [0, 0, 0, 1],
+                        originalPosition: [x, y, z]
+                    });
+                }
+            }
+        }
+    } else {
+        // 3x3 cube: positions at -1, 0, 1
+        for (let x = -1; x <= 1; x++) {
+            for (let y = -1; y <= 1; y++) {
+                for (let z = -1; z <= 1; z++) {
+                    cubies.push({
+                        id: id++,
+                        position: [x, y, z],
+                        rotation: [0, 0, 0, 1],
+                        originalPosition: [x, y, z]
+                    });
+                }
             }
         }
     }
     return cubies;
+};
+
+const DIFFICULTY_MOVES = {
+    easy: 5,
+    medium: 15,
+    hard: 25
 };
 
 const checkSolved = (cubies: CubieState[]): boolean => {
@@ -89,7 +117,9 @@ const checkSolved = (cubies: CubieState[]): boolean => {
 export const useStore = create<GameState & Action>()(
     persist(
         (set, get) => ({
-            cubies: generateCubies(),
+            cubies: generateCubies(3),
+            cubeSize: 3,
+            difficulty: 'medium',
             isSolving: false,
             gameStatus: 'IDLE',
             startTime: null,
@@ -104,9 +134,22 @@ export const useStore = create<GameState & Action>()(
             cubeLocked: false,
             viewResetRequested: false,
 
-            initCube: () => set({ cubies: generateCubies() }),
+            initCube: () => set((state) => ({ cubies: generateCubies(state.cubeSize) })),
 
             setTheme: (theme) => set({ theme }),
+
+            setCubeSize: (size) => set({
+                cubeSize: size,
+                cubies: generateCubies(size),
+                gameStatus: 'IDLE',
+                startTime: null,
+                moveCount: 0,
+                isSolving: false,
+                animation: { isAnimating: false, axis: null, layer: null, direction: 0, speed: 1 },
+                scrambleQueue: []
+            }),
+
+            setDifficulty: (difficulty) => set({ difficulty }),
 
             setIsDraggingCube: (isDragging) => set({ isDraggingCube: isDragging }),
 
@@ -133,13 +176,14 @@ export const useStore = create<GameState & Action>()(
 
             finishRotation: () => set((state) => {
                 const { axis, layer, direction } = state.animation;
-                if (!axis || direction === 0) return { animation: { ...state.animation, isAnimating: false } };
+                if (!axis || layer === null || direction === 0) return { animation: { ...state.animation, isAnimating: false } };
 
                 const newCubies = state.cubies.map((cubie) => {
                     const currentPos = cubie.position;
                     const posVal = axis === 'x' ? currentPos[0] : axis === 'y' ? currentPos[1] : currentPos[2];
 
-                    if (Math.round(posVal) === layer) {
+                    // Use tolerance for layer matching (works for both 2x2 and 3x3)
+                    if (Math.abs(posVal - layer) < 0.1) {
                         return {
                             ...cubie,
                             position: rotateVector(cubie.position, axis, direction),
@@ -190,12 +234,18 @@ export const useStore = create<GameState & Action>()(
                 };
             }),
 
-            scramble: (count = 20) => {
+            scramble: () => {
+                const state = get();
+                const count = DIFFICULTY_MOVES[state.difficulty];
                 const moves: { axis: Axis, layer: number, direction: 1 | -1 }[] = [];
+
+                // Generate layers based on cube size
+                const layers = state.cubeSize === 2 ? [-0.5, 0.5] : [-1, 0, 1];
+
                 for (let i = 0; i < count; i++) {
                     const axes: Axis[] = ['x', 'y', 'z'];
                     const axis = axes[Math.floor(Math.random() * 3)];
-                    const layer = Math.floor(Math.random() * 3) - 1;
+                    const layer = layers[Math.floor(Math.random() * layers.length)];
                     const direction = Math.random() > 0.5 ? 1 : -1;
                     moves.push({ axis, layer, direction: direction as 1 | -1 });
                 }
@@ -205,7 +255,7 @@ export const useStore = create<GameState & Action>()(
                     moveCount: 0,
                     startTime: null,
                     isSolving: false,
-                    cubies: generateCubies(),
+                    cubies: generateCubies(state.cubeSize),
                     scrambleQueue: moves
                 });
 
@@ -218,18 +268,24 @@ export const useStore = create<GameState & Action>()(
                 }
             },
 
-            resetGame: () => set({
-                cubies: generateCubies(),
+            resetGame: () => set((state) => ({
+                cubies: generateCubies(state.cubeSize),
                 gameStatus: 'IDLE',
                 startTime: null,
                 moveCount: 0,
                 animation: { isAnimating: false, axis: null, layer: null, direction: 0, speed: 1 },
                 scrambleQueue: []
-            }),
+            })),
         }),
         {
             name: 'rubiks3d-storage',
-            partialize: (state) => ({ leaderboard: state.leaderboard, theme: state.theme, invertControls: state.invertControls }),
+            partialize: (state) => ({
+                leaderboard: state.leaderboard,
+                theme: state.theme,
+                invertControls: state.invertControls,
+                cubeSize: state.cubeSize,
+                difficulty: state.difficulty
+            }),
         }
     )
 );

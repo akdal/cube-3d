@@ -23,7 +23,7 @@ interface AnimationState {
 }
 
 export const Cube: React.FC = () => {
-    const { cubies, animation, triggerRotation, finishRotation } = useStore();
+    const { cubies, animation, triggerRotation, finishRotation, cubeSize } = useStore();
     const groupRef = useRef<Group>(null);
     const [progress, setProgress] = useState(0);
 
@@ -67,6 +67,7 @@ export const Cube: React.FC = () => {
                     cubie={cubie}
                     animation={animation}
                     progress={progress}
+                    cubeSize={cubeSize}
                     onPointerDown={(e: ThreeEvent<PointerEvent>) => onPointerDown(e, cubie.position)}
                     onPointerMove={onPointerMove}
                     onPointerUp={onPointerUp}
@@ -80,17 +81,19 @@ const CubieWrapper: React.FC<{
     cubie: CubieState;
     animation: AnimationState;
     progress: number;
+    cubeSize: 2 | 3;
     onPointerDown: (e: ThreeEvent<PointerEvent>) => void;
     onPointerMove: (e: ThreeEvent<PointerEvent>) => void;
     onPointerUp: (e: ThreeEvent<PointerEvent>) => void;
-}> = ({ cubie, animation, progress, onPointerDown, onPointerMove, onPointerUp }) => {
+}> = ({ cubie, animation, progress, cubeSize, onPointerDown, onPointerMove, onPointerUp }) => {
     const groupRef = useRef<Group>(null);
 
-    const isRotating = animation.isAnimating && animation.axis && (
-        Math.round(cubie.position[
-            animation.axis === 'x' ? 0 : animation.axis === 'y' ? 1 : 2
-        ]) === animation.layer
-    );
+    // Use tolerance for layer matching (works for both 2x2 and 3x3)
+    const posVal = animation.axis
+        ? cubie.position[animation.axis === 'x' ? 0 : animation.axis === 'y' ? 1 : 2]
+        : 0;
+    const isRotating = animation.isAnimating && animation.axis && animation.layer !== null &&
+        Math.abs(posVal - animation.layer) < 0.1;
 
     useFrame(() => {
         if (!groupRef.current) return;
@@ -118,6 +121,7 @@ const CubieWrapper: React.FC<{
                 position={[0, 0, 0]}
                 rotation={[0, 0, 0, 1]}
                 originalPosition={cubie.originalPosition}
+                cubeSize={cubeSize}
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
