@@ -111,12 +111,18 @@ export const UI = ({ onBack }: UIProps) => {
                                 <p className="text-cyan-400/60">기록이 없습니다.</p>
                             ) : (
                                 <ul className="space-y-2">
-                                    {leaderboard.map((entry, i) => (
-                                        <li key={i} className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200">
-                                            <span>{i + 1}. {new Date(entry.date).toLocaleDateString()}</span>
-                                            <span className="font-mono">{entry.time.toFixed(2)}초</span>
-                                        </li>
-                                    ))}
+                                    {leaderboard.map((entry, i) => {
+                                        const date = new Date(entry.date);
+                                        const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
+                                        const timeStr = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+                                        return (
+                                            <li key={i} className="flex justify-between items-center border-b border-cyan-500/20 pb-1 text-sm text-cyan-200">
+                                                <span>{i + 1}.</span>
+                                                <span className="font-mono">{entry.time.toFixed(2)}초</span>
+                                                <span className="text-cyan-400/60 text-xs">{dateStr} {timeStr}</span>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             )}
                         </div>

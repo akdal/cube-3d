@@ -112,15 +112,20 @@ export const DotsUI = ({ onBack }: DotsUIProps) => {
                                     {leaderboard.map((entry, i) => (
                                         <li
                                             key={i}
-                                            className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
+                                            className="border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                         >
-                                            <span>
-                                                {entry.winner === 'draw' ? '무승부' : `P${entry.winner} 승`}
-                                            </span>
-                                            <span className="font-mono">
-                                                {entry.player1Score} : {entry.player2Score}
-                                            </span>
-                                            <span className="text-cyan-400/60">{entry.gridSize}×{entry.gridSize}</span>
+                                            <div className="flex justify-between">
+                                                <span>
+                                                    {entry.winner === 'draw' ? '무승부' : `P${entry.winner} 승`}
+                                                </span>
+                                                <span className="font-mono">
+                                                    {entry.player1Score} : {entry.player2Score}
+                                                </span>
+                                                <span className="text-cyan-400/60">{entry.gridSize}×{entry.gridSize}</span>
+                                            </div>
+                                            <div className="text-cyan-400/50 text-xs">
+                                                {new Date(entry.date).toLocaleString('ko-KR')}
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
@@ -255,15 +260,20 @@ export const DotsUI = ({ onBack }: DotsUIProps) => {
                             {leaderboard.map((entry, i) => (
                                 <li
                                     key={i}
-                                    className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
+                                    className="border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                 >
-                                    <span>
-                                        {entry.winner === 'draw' ? '무승부' : `P${entry.winner} 승`}
-                                    </span>
-                                    <span className="font-mono">
-                                        {entry.player1Score} : {entry.player2Score}
-                                    </span>
-                                    <span className="text-cyan-400/60">{entry.gridSize}×{entry.gridSize}</span>
+                                    <div className="flex justify-between">
+                                        <span>
+                                            {entry.winner === 'draw' ? '무승부' : `P${entry.winner} 승`}
+                                        </span>
+                                        <span className="font-mono">
+                                            {entry.player1Score} : {entry.player2Score}
+                                        </span>
+                                        <span className="text-cyan-400/60">{entry.gridSize}×{entry.gridSize}</span>
+                                    </div>
+                                    <div className="text-cyan-400/50 text-xs">
+                                        {new Date(entry.date).toLocaleString('ko-KR')}
+                                    </div>
                                 </li>
                             ))}
                         </ul>

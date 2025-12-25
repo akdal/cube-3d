@@ -1,9 +1,16 @@
 import { Vector3 } from 'three';
 import { usePuzzleStore } from './usePuzzleStore';
 import { TileWithText } from './Tile';
+import { useResponsiveViewport } from '../../hooks/useResponsiveViewport';
 
 export const PuzzleGame = () => {
     const { tiles, gridSize, moveTile, hintActive, hintTileIndex } = usePuzzleStore();
+    const { gameScale } = useResponsiveViewport({
+        veryNarrowScale: 0.6,
+        narrowScale: 0.75,
+        portraitScale: 0.9,
+        landscapeScale: 1.0,
+    });
 
     const tileSize = 2.8 / gridSize;
     const boardSize = 3;
@@ -23,7 +30,7 @@ export const PuzzleGame = () => {
     const boardPadding = 0.15;
 
     return (
-        <group>
+        <group scale={gameScale}>
             {/* Board background */}
             <mesh position={[0, 0, -0.2]} receiveShadow>
                 <boxGeometry

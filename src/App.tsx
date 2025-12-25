@@ -112,6 +112,30 @@ interface GameMenuProps {
 }
 
 function GameMenu({ onSelectGame }: GameMenuProps) {
+  // Current datetime state
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+    const weekday = weekdays[date.getDay()];
+    return { year, month, day, hours, minutes, seconds, weekday };
+  };
+
+  const { year, month, day, hours, minutes, seconds, weekday } = formatDate(currentTime);
+
   // Generate random snowflakes with varied sizes and speeds
   const snowflakes = [...Array(50)].map((_, i) => ({
     left: `${Math.random() * 100}%`,
@@ -155,6 +179,18 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
       />
 
       <div className="text-center relative z-10">
+        {/* Current Date & Time */}
+        <div className="mb-4">
+          <div className="inline-block px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <div className="text-cyan-200/80 text-xs tracking-wider mb-1">
+              {year}.{month}.{day} ({weekday})
+            </div>
+            <div className="text-2xl sm:text-3xl font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-white">
+              {hours}:{minutes}:<span className="text-cyan-400/80">{seconds}</span>
+            </div>
+          </div>
+        </div>
+
         {/* Season's Greetings */}
         <div className="mb-3 text-2xl">
           <span className="animate-pulse">⭐</span>

@@ -1,8 +1,15 @@
 import { useMemoryStore } from './useMemoryStore';
 import { Card } from './Card';
+import { useResponsiveViewport } from '../../hooks/useResponsiveViewport';
 
 export const MemoryGame = () => {
     const { cards, gridSize, flipCard, hintActive, hintCardIndices } = useMemoryStore();
+    const { gameScale } = useResponsiveViewport({
+        veryNarrowScale: 0.55,
+        narrowScale: 0.7,
+        portraitScale: 0.85,
+        landscapeScale: 1.0,
+    });
 
     const cardSpacing = gridSize === 4 ? 1.1 : 0.9;
 
@@ -18,7 +25,7 @@ export const MemoryGame = () => {
     };
 
     return (
-        <group>
+        <group scale={gameScale}>
             {/* Snowy background plane */}
             <mesh position={[0, 0, -0.3]} receiveShadow>
                 <planeGeometry args={[gridSize * cardSpacing + 1, gridSize * cardSpacing + 1]} />

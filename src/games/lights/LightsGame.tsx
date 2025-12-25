@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh, Group, MeshStandardMaterial, MeshBasicMaterial } from 'three';
 import { useLightsStore } from './useLightsStore';
+import { useResponsiveViewport } from '../../hooks/useResponsiveViewport';
 
 // Christmas tree light colors
 const LIGHT_ON_COLORS = [
@@ -112,11 +113,17 @@ const LightCell = ({ row, col, isOn, gridSize, onClick }: LightCellProps) => {
 export const LightsGame = () => {
     const { grid, gridSize, toggleLight } = useLightsStore();
     const groupRef = useRef<Group>(null);
+    const { gameScale } = useResponsiveViewport({
+        veryNarrowScale: 0.55,
+        narrowScale: 0.7,
+        portraitScale: 0.85,
+        landscapeScale: 1.0,
+    });
 
     if (grid.length === 0) return null;
 
     return (
-        <group ref={groupRef}>
+        <group ref={groupRef} scale={gameScale}>
             {/* Base plate */}
             <mesh position={[0, 0, -0.2]} receiveShadow>
                 <boxGeometry args={[gridSize * 1.2, gridSize * 1.2, 0.1]} />

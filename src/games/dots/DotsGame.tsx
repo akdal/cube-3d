@@ -3,6 +3,7 @@ import { useDotsStore } from './useDotsStore';
 import { Dot } from './Dot';
 import { Line } from './Line';
 import { Box } from './Box';
+import { useResponsiveViewport } from '../../hooks/useResponsiveViewport';
 
 export const DotsGame = () => {
     const gridSize = useDotsStore((s) => s.gridSize);
@@ -13,6 +14,13 @@ export const DotsGame = () => {
     const gameStatus = useDotsStore((s) => s.gameStatus);
     const drawLine = useDotsStore((s) => s.drawLine);
 
+    const { gameScale } = useResponsiveViewport({
+        veryNarrowScale: 0.5,
+        narrowScale: 0.65,
+        portraitScale: 0.8,
+        landscapeScale: 1.0,
+    });
+
     const cellSize = 1;
     const gridOffset = ((gridSize - 1) * cellSize) / 2;
     const boardSize = gridSize * cellSize;
@@ -22,7 +30,7 @@ export const DotsGame = () => {
         newlyCompletedBoxes.some((b) => b.row === row && b.col === col);
 
     return (
-        <group>
+        <group scale={gameScale}>
             {/* Board base */}
             <RoundedBox
                 args={[boardSize + 0.4, 0.1, boardSize + 0.4]}

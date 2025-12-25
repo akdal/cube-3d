@@ -267,14 +267,19 @@ export const LightsUI = ({ onBack }: LightsUIProps) => {
                             {leaderboard.map((entry, i) => (
                                 <li
                                     key={i}
-                                    className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
+                                    className="border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                 >
-                                    <span>
-                                        {i + 1}. Lv{entry.level} ({entry.gridSize}×{entry.gridSize})
-                                    </span>
-                                    <span className="font-mono">
-                                        {entry.moves}회 - {entry.time.toFixed(2)}초
-                                    </span>
+                                    <div className="flex justify-between">
+                                        <span>
+                                            {i + 1}. Lv{entry.level} ({entry.gridSize}×{entry.gridSize})
+                                        </span>
+                                        <span className="font-mono">
+                                            {entry.moves}회 - {entry.time.toFixed(2)}초
+                                        </span>
+                                    </div>
+                                    <div className="text-cyan-400/50 text-xs">
+                                        {new Date(entry.date).toLocaleString('ko-KR')}
+                                    </div>
                                 </li>
                             ))}
                         </ul>

@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { RoundedBox } from '@react-three/drei';
 import { use2048Store } from './use2048Store';
 import { Tile } from './Tile';
+import { useResponsiveViewport } from '../../hooks/useResponsiveViewport';
 
 const GRID_SIZE = 4;
 const CELL_SIZE = 1.1;
@@ -11,6 +12,12 @@ const GRID_OFFSET = (GRID_SIZE - 1) * CELL_SIZE / 2;
 
 export const Game2048 = () => {
     const { tiles, gameStatus, move, clearAnimationFlags } = use2048Store();
+    const { gameScale } = useResponsiveViewport({
+        veryNarrowScale: 0.55,
+        narrowScale: 0.7,
+        portraitScale: 0.85,
+        landscapeScale: 1.0,
+    });
 
     // Keyboard controls
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -116,7 +123,7 @@ export const Game2048 = () => {
     }, [gameStatus, move]);
 
     return (
-        <group>
+        <group scale={gameScale}>
             {/* Board base */}
             <RoundedBox
                 args={[BOARD_SIZE, 0.15, BOARD_SIZE]}

@@ -149,10 +149,15 @@ export const Game2048UI = ({ onBack }: Game2048UIProps) => {
                                     {leaderboard.map((entry, i) => (
                                         <li
                                             key={i}
-                                            className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
+                                            className="border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                         >
-                                            <span>{i + 1}. {entry.score}점</span>
-                                            <span className="font-mono">최고 {entry.maxTile}</span>
+                                            <div className="flex justify-between">
+                                                <span>{i + 1}. {entry.score}점</span>
+                                                <span className="font-mono">최고 {entry.maxTile}</span>
+                                            </div>
+                                            <div className="text-cyan-400/50 text-xs">
+                                                {new Date(entry.date).toLocaleString('ko-KR')}
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
@@ -253,10 +258,15 @@ export const Game2048UI = ({ onBack }: Game2048UIProps) => {
                             {leaderboard.map((entry, i) => (
                                 <li
                                     key={i}
-                                    className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
+                                    className="border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                 >
-                                    <span>{i + 1}. {entry.score}점</span>
-                                    <span className="font-mono text-cyan-400/60">최고 {entry.maxTile}</span>
+                                    <div className="flex justify-between">
+                                        <span>{i + 1}. {entry.score}점</span>
+                                        <span className="font-mono text-cyan-400/60">최고 {entry.maxTile}</span>
+                                    </div>
+                                    <div className="text-cyan-400/50 text-xs">
+                                        {new Date(entry.date).toLocaleString('ko-KR')}
+                                    </div>
                                 </li>
                             ))}
                         </ul>

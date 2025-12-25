@@ -130,15 +130,20 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                                     {leaderboard.map((entry, i) => (
                                         <li
                                             key={i}
-                                            className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
+                                            className="border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                         >
-                                            <span>
-                                                {i + 1}. {entry.gridSize}×{entry.gridSize}
-                                                {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
-                                            </span>
-                                            <span className="font-mono">
-                                                {entry.moves}회 / {entry.time.toFixed(2)}초
-                                            </span>
+                                            <div className="flex justify-between">
+                                                <span>
+                                                    {i + 1}. {entry.gridSize}×{entry.gridSize}
+                                                    {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
+                                                </span>
+                                                <span className="font-mono">
+                                                    {entry.moves}회 / {entry.time.toFixed(2)}초
+                                                </span>
+                                            </div>
+                                            <div className="text-cyan-400/50 text-xs">
+                                                {new Date(entry.date).toLocaleString('ko-KR')}
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
@@ -299,15 +304,20 @@ export const PuzzleUI = ({ onBack }: PuzzleUIProps) => {
                             {leaderboard.map((entry, i) => (
                                 <li
                                     key={i}
-                                    className="flex justify-between border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
+                                    className="border-b border-cyan-500/20 pb-1 text-sm text-cyan-200"
                                 >
-                                    <span>
-                                        {i + 1}. {entry.gridSize}×{entry.gridSize}
-                                        {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
-                                    </span>
-                                    <span className="font-mono">
-                                        {entry.moves}회 - {entry.time.toFixed(2)}초
-                                    </span>
+                                    <div className="flex justify-between">
+                                        <span>
+                                            {i + 1}. {entry.gridSize}×{entry.gridSize}
+                                            {entry.hintCount ? ` 💡${entry.hintCount}` : ''}
+                                        </span>
+                                        <span className="font-mono">
+                                            {entry.moves}회 - {entry.time.toFixed(2)}초
+                                        </span>
+                                    </div>
+                                    <div className="text-cyan-400/50 text-xs">
+                                        {new Date(entry.date).toLocaleString('ko-KR')}
+                                    </div>
                                 </li>
                             ))}
                         </ul>
