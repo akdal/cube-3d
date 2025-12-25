@@ -186,6 +186,16 @@ export const LightsUI = ({ onBack }: LightsUIProps) => {
                     {/* Settings */}
                     {showSettings && (
                         <div className="p-3 sm:p-4 border-t border-cyan-500/20 space-y-3">
+                            {/* New Game */}
+                            <button
+                                onClick={() => {
+                                    initGame();
+                                    setShowSettings(false);
+                                }}
+                                className="w-full text-left text-sm text-cyan-300 active:text-cyan-100 py-1"
+                            >
+                                🎮 새 게임
+                            </button>
                             {/* Grid Size */}
                             <div>
                                 <div className="text-xs text-cyan-400/60 mb-1.5">크기</div>
@@ -286,17 +296,10 @@ export const LightsUI = ({ onBack }: LightsUIProps) => {
                 <div className="flex items-center gap-2 text-cyan-300/70 text-xs">
                     <span className="bg-cyan-500/10 px-2 py-0.5 rounded-full font-bold border border-cyan-500/20">{gridSize}×{gridSize}</span>
                     <span>•</span>
+                    <span>레벨: {level}</span>
+                    <span>•</span>
                     <span>횟수: {moveCount}</span>
                 </div>
-                <button
-                    onClick={() => {
-                        useLightsStore.setState({ level: 1 });
-                        initGame();
-                    }}
-                    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-bold rounded-full shadow-lg hover:from-cyan-400 hover:to-blue-400 transition"
-                >
-                    🎮 새 게임
-                </button>
             </div>
 
             <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 text-cyan-400/50 text-xs sm:text-sm">

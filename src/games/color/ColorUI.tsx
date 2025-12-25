@@ -225,18 +225,6 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
                             <span className="text-xl sm:text-2xl">🔄</span>
                         </button>
                         <button
-                            onClick={showHint}
-                            disabled={hintColorIndex !== null}
-                            className={`flex-1 py-3 sm:py-4 text-center transition border-r border-cyan-500/20 ${
-                                hintColorIndex !== null
-                                    ? 'text-gray-600 cursor-not-allowed'
-                                    : 'text-yellow-400 active:bg-cyan-500/10'
-                            }`}
-                            title="힌트"
-                        >
-                            <span className="text-xl sm:text-2xl">💡</span>
-                        </button>
-                        <button
                             onClick={() => resetMix()}
                             className="flex-1 py-3 sm:py-4 text-center text-cyan-300 active:bg-cyan-500/10 transition"
                             title="색 초기화"
@@ -248,6 +236,16 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
                     {/* Settings */}
                     {showSettings && (
                         <div className="p-3 sm:p-4 border-t border-cyan-500/20 space-y-3">
+                            {/* New Game */}
+                            <button
+                                onClick={() => {
+                                    initGame();
+                                    setShowSettings(false);
+                                }}
+                                className="w-full text-left text-sm text-cyan-300 active:text-cyan-100 py-1"
+                            >
+                                🎮 새 게임
+                            </button>
                             {/* Difficulty */}
                             <button
                                 onClick={() => {
@@ -380,23 +378,8 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
                 </div>
             )}
 
-            {/* Mix button - always visible, active when color is selected */}
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-1/3 pointer-events-auto">
-                <button
-                    onClick={() => mixColor()}
-                    disabled={selectedColor === null}
-                    className={`px-8 py-4 text-lg font-bold rounded-2xl shadow-lg transition ${
-                        selectedColor !== null
-                            ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-400 hover:to-blue-400 hover:scale-105 active:scale-95'
-                            : 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                    }`}
-                >
-                    {selectedColor !== null ? '❄️ 섞기!' : '🎨 색상을 선택하세요'}
-                </button>
-            </div>
-
-            {/* Bottom - Info and new game */}
-            <div className="flex flex-col items-center gap-2 pointer-events-auto mb-4">
+            {/* Bottom - Info and action buttons */}
+            <div className="flex flex-col items-center gap-3 pointer-events-auto mb-4">
                 <div className="flex items-center gap-2 text-cyan-300/70 text-xs">
                     <span className="bg-cyan-500/10 px-2 py-0.5 rounded-full font-bold border border-cyan-500/20">
                         {DIFFICULTY_LABELS[difficulty].emoji} {DIFFICULTY_LABELS[difficulty].label} 레벨 {level}
@@ -410,12 +393,32 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
                         </>
                     )}
                 </div>
-                <button
-                    onClick={() => initGame()}
-                    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-bold rounded-full shadow-lg hover:from-cyan-400 hover:to-blue-400 transition"
-                >
-                    🎮 새 게임
-                </button>
+                {/* Mix button + Hint button */}
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={showHint}
+                        disabled={hintColorIndex !== null}
+                        className={`px-4 py-3 rounded-full shadow-lg transition ${
+                            hintColorIndex !== null
+                                ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-yellow-500 to-amber-500 text-white hover:from-yellow-400 hover:to-amber-400'
+                        }`}
+                        title="힌트"
+                    >
+                        <span className="text-xl">💡</span>
+                    </button>
+                    <button
+                        onClick={() => mixColor()}
+                        disabled={selectedColor === null}
+                        className={`px-8 py-3 text-lg font-bold rounded-full shadow-lg transition ${
+                            selectedColor !== null
+                                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-400 hover:to-blue-400 hover:scale-105 active:scale-95'
+                                : 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
+                        }`}
+                    >
+                        {selectedColor !== null ? '❄️ 섞기!' : '🎨 색상을 선택하세요'}
+                    </button>
+                </div>
             </div>
 
             <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 text-cyan-400/50 text-xs sm:text-sm">

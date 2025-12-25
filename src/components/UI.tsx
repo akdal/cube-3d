@@ -182,6 +182,13 @@ export const UI = ({ onBack }: UIProps) => {
                     {/* Settings */}
                     {showSettings && (
                         <div className="p-3 sm:p-4 border-t border-cyan-500/20 space-y-3">
+                            {/* New Game */}
+                            <button
+                                onClick={() => { scramble(); setShowSettings(false); }}
+                                className="w-full text-left text-sm text-cyan-300 active:text-cyan-100 py-1"
+                            >
+                                🎮 새 게임
+                            </button>
                             {/* Cube Size */}
                             <div>
                                 <div className="text-xs text-cyan-400/60 mb-1.5">크기</div>
@@ -288,19 +295,13 @@ export const UI = ({ onBack }: UIProps) => {
                 </div>
             )}
 
-            {/* Bottom - Small New Game Button */}
+            {/* Bottom - Info */}
             <div className="flex flex-col items-center gap-2 pointer-events-auto mb-4">
                 <div className="flex items-center gap-2 text-cyan-300/70 text-xs">
                     <span className="bg-cyan-500/10 px-2 py-0.5 rounded-full font-bold border border-cyan-500/20">{cubeSize}×{cubeSize}</span>
                     <span>•</span>
                     <span>{difficulty === 'easy' ? '쉬움' : difficulty === 'medium' ? '보통' : '어려움'}</span>
                 </div>
-                <button
-                    onClick={() => scramble()}
-                    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-bold rounded-full shadow-lg hover:from-cyan-400 hover:to-blue-400 transition"
-                >
-                    🎮 새 게임
-                </button>
             </div>
 
             <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 text-cyan-400/50 text-xs sm:text-sm">

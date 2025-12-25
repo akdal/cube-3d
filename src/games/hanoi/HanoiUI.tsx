@@ -185,27 +185,26 @@ export const HanoiUI = ({ onBack }: HanoiUIProps) => {
                         </button>
                         <button
                             onClick={() => requestViewReset()}
-                            className="flex-1 py-3 sm:py-4 text-center text-cyan-300 active:bg-cyan-500/10 transition border-r border-cyan-500/20"
+                            className="flex-1 py-3 sm:py-4 text-center text-cyan-300 active:bg-cyan-500/10 transition"
                             title="3D 뷰 초기화"
                         >
                             <span className="text-xl sm:text-2xl">🔄</span>
-                        </button>
-                        <button
-                            onClick={showHint}
-                            disabled={hintActive}
-                            className={`flex-1 py-3 sm:py-4 text-center transition ${
-                                hintActive
-                                    ? 'text-gray-600 cursor-not-allowed'
-                                    : 'text-yellow-400 active:bg-cyan-500/10'
-                            }`}
-                        >
-                            <span className="text-xl sm:text-2xl">💡</span>
                         </button>
                     </div>
 
                     {/* Settings */}
                     {showSettings && (
                         <div className="p-3 sm:p-4 border-t border-cyan-500/20 space-y-3">
+                            {/* New Game */}
+                            <button
+                                onClick={() => {
+                                    initGame();
+                                    setShowSettings(false);
+                                }}
+                                className="w-full text-left text-sm text-cyan-300 active:text-cyan-100 py-1"
+                            >
+                                🎮 새 게임
+                            </button>
                             {/* Disk Count */}
                             <div>
                                 <div className="text-xs text-cyan-400/60 mb-1.5">
@@ -307,18 +306,29 @@ export const HanoiUI = ({ onBack }: HanoiUIProps) => {
                 </div>
             )}
 
-            {/* Bottom - Small New Game Button */}
+            {/* Bottom - Info and Hint */}
             <div className="flex flex-col items-center gap-2 pointer-events-auto mb-4">
                 <div className="flex items-center gap-2 text-cyan-300/70 text-xs">
                     <span className="bg-cyan-500/10 px-2 py-0.5 rounded-full font-bold border border-cyan-500/20">{diskCount}개</span>
                     <span>•</span>
                     <span>최소: {minMoves}회</span>
+                    {hintCount > 0 && (
+                        <>
+                            <span>•</span>
+                            <span className="text-yellow-400">💡{hintCount}</span>
+                        </>
+                    )}
                 </div>
                 <button
-                    onClick={() => initGame()}
-                    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-bold rounded-full shadow-lg hover:from-cyan-400 hover:to-blue-400 transition"
+                    onClick={showHint}
+                    disabled={hintActive}
+                    className={`px-6 py-2 text-sm font-bold rounded-full shadow-lg transition ${
+                        hintActive
+                            ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-yellow-500 to-amber-500 text-white hover:from-yellow-400 hover:to-amber-400'
+                    }`}
                 >
-                    🎮 새 게임
+                    💡 힌트
                 </button>
             </div>
 
