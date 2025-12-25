@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
-import { RoundedBox } from '@react-three/drei';
-import { Quaternion } from 'three';
+import { useMemo } from 'react';
+import { BoxGeometry, Quaternion, MeshStandardMaterial } from 'three';
 import type { ThreeEvent } from '@react-three/fiber';
 
 interface CubieProps {
@@ -19,45 +18,44 @@ const COLORS = {
     L: '#FF5800',
     F: '#009E60',
     B: '#0051BA',
-    CORE: '#2a2a2a'
+    CORE: '#1a1a1a'
 };
 
-export const Cubie: React.FC<CubieProps> = ({
+// Shared geometry for all cubies
+const boxGeometry = new BoxGeometry(0.95, 0.95, 0.95);
+
+export const Cubie = ({
     position,
     rotation,
     originalPosition,
     onPointerDown,
     onPointerMove,
     onPointerUp
-}) => {
+}: CubieProps) => {
     const [ox, oy, oz] = originalPosition;
-
-    const colorRight = ox === 1 ? COLORS.R : COLORS.CORE;
-    const colorLeft = ox === -1 ? COLORS.L : COLORS.CORE;
-    const colorUp = oy === 1 ? COLORS.U : COLORS.CORE;
-    const colorDown = oy === -1 ? COLORS.D : COLORS.CORE;
-    const colorFront = oz === 1 ? COLORS.F : COLORS.CORE;
-    const colorBack = oz === -1 ? COLORS.B : COLORS.CORE;
 
     const quaternion = useMemo(() => new Quaternion(...rotation), [rotation]);
 
+    // Create materials array for 6 faces
+    // BoxGeometry face order: +X, -X, +Y, -Y, +Z, -Z
+    const materials = useMemo(() => [
+        new MeshStandardMaterial({ color: ox === 1 ? COLORS.R : COLORS.CORE }),   // Right (+X)
+        new MeshStandardMaterial({ color: ox === -1 ? COLORS.L : COLORS.CORE }),  // Left (-X)
+        new MeshStandardMaterial({ color: oy === 1 ? COLORS.U : COLORS.CORE }),   // Up (+Y)
+        new MeshStandardMaterial({ color: oy === -1 ? COLORS.D : COLORS.CORE }),  // Down (-Y)
+        new MeshStandardMaterial({ color: oz === 1 ? COLORS.F : COLORS.CORE }),   // Front (+Z)
+        new MeshStandardMaterial({ color: oz === -1 ? COLORS.B : COLORS.CORE }),  // Back (-Z)
+    ], [ox, oy, oz]);
+
     return (
         <group position={position} quaternion={quaternion}>
-            <RoundedBox
-                args={[0.95, 0.95, 0.95]}
-                radius={0.1}
-                smoothness={4}
+            <mesh
+                geometry={boxGeometry}
+                material={materials}
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
-            >
-                <meshStandardMaterial attach="material-0" color={colorRight} />
-                <meshStandardMaterial attach="material-1" color={colorLeft} />
-                <meshStandardMaterial attach="material-2" color={colorUp} />
-                <meshStandardMaterial attach="material-3" color={colorDown} />
-                <meshStandardMaterial attach="material-4" color={colorFront} />
-                <meshStandardMaterial attach="material-5" color={colorBack} />
-            </RoundedBox>
+            />
         </group>
     );
 };
