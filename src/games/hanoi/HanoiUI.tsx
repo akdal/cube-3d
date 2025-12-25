@@ -292,7 +292,7 @@ export const HanoiUI = ({ onBack }: HanoiUIProps) => {
             </div>
 
             <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 text-white/50 text-xs sm:text-sm">
-                🎯 모든 원반을 오른쪽 기둥으로 옮기세요 • 클릭으로 이동
+                🎯 모든 원반을 하얀색 기둥으로 옮기세요 • 클릭으로 이동
             </div>
         </div>
     );

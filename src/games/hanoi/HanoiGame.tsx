@@ -56,6 +56,7 @@ export const HanoiGame = () => {
                     position={pos}
                     height={pegHeight}
                     isSelected={selectedPeg === index}
+                    isTarget={index === 2} // Rightmost peg is always white
                     isHintSource={hintActive && hintInfo?.fromPeg === index}
                     isHintTarget={hintActive && hintInfo?.toPeg === index}
                     onClick={(e) => {
