@@ -110,7 +110,6 @@ export const Tile = ({ tile, cellSize, gridOffset }: TileProps) => {
                 color={textColor}
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/Inter-Bold.woff"
                 fontWeight={700}
             >
                 {tile.value}
