@@ -70,9 +70,9 @@ export const Game2048UI = ({ onBack }: Game2048UIProps) => {
                         </button>
                         <button
                             onClick={() => initGame()}
-                            className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full font-bold hover:from-cyan-400 hover:to-blue-400 transition"
+                            className="text-cyan-300 hover:text-cyan-100"
                         >
-                            🎮 새 게임
+                            새 게임
                         </button>
                         <button
                             onClick={onBack}
@@ -120,7 +120,7 @@ export const Game2048UI = ({ onBack }: Game2048UIProps) => {
                         </button>
                         <button
                             onClick={() => setShowLeaderboard(true)}
-                            className="text-cyan-300 underline hover:text-cyan-100"
+                            className="text-cyan-300 hover:text-cyan-100"
                         >
                             기록 보기
                         </button>

@@ -96,7 +96,7 @@ export const LightsUI = ({ onBack }: LightsUIProps) => {
                         </button>
                         <button
                             onClick={() => initGame()}
-                            className="px-6 py-2 text-cyan-300 hover:text-cyan-100"
+                            className="text-cyan-300 hover:text-cyan-100"
                         >
                             이 레벨 다시하기
                         </button>

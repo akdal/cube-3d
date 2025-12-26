@@ -82,7 +82,7 @@ export const DotsUI = ({ onBack }: DotsUIProps) => {
                         </button>
                         <button
                             onClick={() => setShowLeaderboard(true)}
-                            className="text-cyan-300 underline hover:text-cyan-100"
+                            className="text-cyan-300 hover:text-cyan-100"
                         >
                             기록 보기
                         </button>
