@@ -40,19 +40,16 @@ function DotsScene() {
             {/* Game */}
             <DotsGame />
 
-            {/* Controls - limited rotation for front view */}
+            {/* Controls - fixed front view, zoom only */}
             <OrbitControls
                 ref={controlsRef}
                 makeDefault
+                enableRotate={false}
+                enablePan={false}
                 enableDamping
                 dampingFactor={0.05}
                 minDistance={5}
-                maxDistance={12}
-                minPolarAngle={Math.PI / 2.5}
-                maxPolarAngle={Math.PI / 1.8}
-                minAzimuthAngle={-Math.PI / 6}
-                maxAzimuthAngle={Math.PI / 6}
-                enablePan={false}
+                maxDistance={14}
             />
         </>
     );

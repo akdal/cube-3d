@@ -39,19 +39,16 @@ function PuzzleScene() {
             {/* Game */}
             <PuzzleGame />
 
-            {/* Controls - limited for 2D puzzle (front view default, limited rotation) */}
+            {/* Controls - fixed front view, zoom only */}
             <OrbitControls
                 ref={controlsRef}
                 makeDefault
+                enableRotate={false}
+                enablePan={false}
                 enableDamping
                 dampingFactor={0.05}
-                minDistance={4}
-                maxDistance={8}
-                minPolarAngle={Math.PI / 2.5}
-                maxPolarAngle={Math.PI / 1.8}
-                minAzimuthAngle={-Math.PI / 6}
-                maxAzimuthAngle={Math.PI / 6}
-                enablePan={false}
+                minDistance={3}
+                maxDistance={10}
             />
         </>
     );

@@ -125,10 +125,11 @@ export const useLightsStore = create<LightsState & LightsActions>()(
                 const isFirstMove = state.gameStatus === 'IDLE';
                 const solved = checkSolved(newGrid);
                 const newMoveCount = state.moveCount + 1;
+                const newStartTime = isFirstMove ? Date.now() : state.startTime;
 
                 let newLeaderboard = state.leaderboard;
-                if (solved && state.startTime) {
-                    const time = (Date.now() - (isFirstMove ? Date.now() : state.startTime)) / 1000;
+                if (solved && newStartTime) {
+                    const time = (Date.now() - newStartTime) / 1000;
                     newLeaderboard = [
                         ...state.leaderboard,
                         {
@@ -145,7 +146,7 @@ export const useLightsStore = create<LightsState & LightsActions>()(
                     grid: newGrid,
                     moveCount: newMoveCount,
                     gameStatus: solved ? 'SOLVED' : 'PLAYING',
-                    startTime: isFirstMove ? Date.now() : state.startTime,
+                    startTime: newStartTime,
                     leaderboard: newLeaderboard,
                 });
             },

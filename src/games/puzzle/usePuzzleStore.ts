@@ -233,11 +233,11 @@ export const usePuzzleStore = create<PuzzleState & PuzzleActions>()(
 
                 const solved = checkSolved(newTiles);
                 const newMoveCount = moveCount + 1;
+                const newStartTime = isFirstMove ? Date.now() : state.startTime;
 
                 let newLeaderboard = state.leaderboard;
-                if (solved && (isFirstMove ? Date.now() : state.startTime)) {
-                    const startTime = isFirstMove ? Date.now() : state.startTime!;
-                    const time = (Date.now() - startTime) / 1000;
+                if (solved && newStartTime) {
+                    const time = (Date.now() - newStartTime) / 1000;
                     newLeaderboard = [
                         ...state.leaderboard,
                         { time, moves: newMoveCount, gridSize, date: new Date().toISOString(), hintCount: state.hintCount }
@@ -249,7 +249,7 @@ export const usePuzzleStore = create<PuzzleState & PuzzleActions>()(
                     emptyIndex: index,
                     moveCount: newMoveCount,
                     gameStatus: solved ? 'SOLVED' : 'PLAYING',
-                    startTime: isFirstMove ? Date.now() : state.startTime,
+                    startTime: newStartTime,
                     leaderboard: newLeaderboard,
                     hintActive: false,
                     hintTileIndex: null,
