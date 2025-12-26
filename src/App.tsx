@@ -12,6 +12,7 @@ import { Lights } from './games/lights';
 import { ColorMix } from './games/color';
 import { Game2048 } from './games/game2048';
 import { Dots } from './games/dots';
+import { PWAUpdatePrompt } from './components/PWAUpdatePrompt';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
 type GameType = 'menu' | 'rubiks' | 'hanoi' | 'puzzle' | 'memory' | 'lights' | 'color' | 'game2048' | 'dots';
@@ -404,26 +405,35 @@ function App() {
 
   const handleBack = () => setCurrentGame('menu');
 
-  switch (currentGame) {
-    case 'rubiks':
-      return <RubiksGame onBack={handleBack} />;
-    case 'hanoi':
-      return <Hanoi onBack={handleBack} />;
-    case 'puzzle':
-      return <Puzzle onBack={handleBack} />;
-    case 'memory':
-      return <Memory onBack={handleBack} />;
-    case 'lights':
-      return <Lights onBack={handleBack} />;
-    case 'color':
-      return <ColorMix onBack={handleBack} />;
-    case 'game2048':
-      return <Game2048 onBack={handleBack} />;
-    case 'dots':
-      return <Dots onBack={handleBack} />;
-    default:
-      return <GameMenu onSelectGame={setCurrentGame} />;
-  }
+  const renderGame = () => {
+    switch (currentGame) {
+      case 'rubiks':
+        return <RubiksGame onBack={handleBack} />;
+      case 'hanoi':
+        return <Hanoi onBack={handleBack} />;
+      case 'puzzle':
+        return <Puzzle onBack={handleBack} />;
+      case 'memory':
+        return <Memory onBack={handleBack} />;
+      case 'lights':
+        return <Lights onBack={handleBack} />;
+      case 'color':
+        return <ColorMix onBack={handleBack} />;
+      case 'game2048':
+        return <Game2048 onBack={handleBack} />;
+      case 'dots':
+        return <Dots onBack={handleBack} />;
+      default:
+        return <GameMenu onSelectGame={setCurrentGame} />;
+    }
+  };
+
+  return (
+    <>
+      {renderGame()}
+      <PWAUpdatePrompt />
+    </>
+  );
 }
 
 export default App;
