@@ -180,6 +180,7 @@ export const useColorStore = create<ColorState & ColorActions>()(
                 const newColor = mixColors(state.currentColor, selectedRGB);
                 const accuracy = calculateAccuracy(newColor, state.targetColor);
                 const solved = accuracy >= 95; // 95% accuracy = solved
+                const newStartTime = isFirstMove ? Date.now() : state.startTime;
 
                 // Check if user followed the hint and advance hint step
                 let newHintStep = state.currentHintStep;
@@ -188,8 +189,8 @@ export const useColorStore = create<ColorState & ColorActions>()(
                 }
 
                 let newLeaderboard = state.leaderboard;
-                if (solved && state.startTime) {
-                    const time = (Date.now() - state.startTime) / 1000;
+                if (solved && newStartTime) {
+                    const time = (Date.now() - newStartTime) / 1000;
                     newLeaderboard = [
                         ...state.leaderboard,
                         {
@@ -208,7 +209,7 @@ export const useColorStore = create<ColorState & ColorActions>()(
                     moveCount: state.moveCount + 1,
                     accuracy,
                     gameStatus: solved ? 'SOLVED' : 'PLAYING',
-                    startTime: isFirstMove ? Date.now() : state.startTime,
+                    startTime: newStartTime,
                     selectedColor: null,
                     currentHintStep: newHintStep,
                     leaderboard: newLeaderboard,
