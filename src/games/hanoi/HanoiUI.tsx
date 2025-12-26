@@ -63,14 +63,14 @@ export const HanoiUI = ({ onBack }: HanoiUIProps) => {
     const timeDisplay =
         gameStatus === 'IDLE' || !startTime
             ? '0.00'
-            : ((now - startTime) / 1000).toFixed(2);
+            : Math.max(0, (now - startTime) / 1000).toFixed(2);
 
     const minMoves = getMinMoves(diskCount);
 
     // Solved screen - Winter theme
     if (showModal) {
         const isPerfect = moveCount === minMoves;
-        const currentTime = startTime ? (now - startTime) / 1000 : 0;
+        const currentTime = startTime ? Math.max(0, (now - startTime) / 1000) : 0;
 
         // Check if this is a new record (best time for same disk count)
         const sameDisksRecords = leaderboard.filter(e => e.diskCount === diskCount);

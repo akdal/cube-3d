@@ -76,7 +76,7 @@ export const ColorUI = ({ onBack }: ColorUIProps) => {
     const timeDisplay =
         gameStatus === 'IDLE' || !startTime
             ? '0.00'
-            : ((now - startTime) / 1000).toFixed(2);
+            : Math.max(0, (now - startTime) / 1000).toFixed(2);
 
     const targetHex = rgbToHex(targetColor);
     const currentHex = rgbToHex(currentColor);

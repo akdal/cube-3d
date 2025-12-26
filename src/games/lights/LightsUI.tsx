@@ -61,11 +61,11 @@ export const LightsUI = ({ onBack }: LightsUIProps) => {
     const timeDisplay =
         gameStatus === 'IDLE' || !startTime
             ? '0.00'
-            : ((now - startTime) / 1000).toFixed(2);
+            : Math.max(0, (now - startTime) / 1000).toFixed(2);
 
     // Solved screen
     if (showModal) {
-        const currentTime = startTime ? (now - startTime) / 1000 : 0;
+        const currentTime = startTime ? Math.max(0, (now - startTime) / 1000) : 0;
         const sameRecords = leaderboard.filter(e => e.gridSize === gridSize && e.level === level);
         const isNewRecord = sameRecords.length <= 1 ||
             (sameRecords.length > 1 && currentTime < sameRecords[1].time);

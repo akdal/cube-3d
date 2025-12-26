@@ -63,11 +63,11 @@ export const UI = ({ onBack }: UIProps) => {
 
     const timeDisplay = (gameStatus === 'IDLE' || !startTime)
         ? "0.00"
-        : ((now - startTime) / 1000).toFixed(2);
+        : Math.max(0, (now - startTime) / 1000).toFixed(2);
 
     // Solved screen - Winter theme
     if (showModal) {
-        const currentTime = startTime ? (now - startTime) / 1000 : 0;
+        const currentTime = startTime ? Math.max(0, (now - startTime) / 1000) : 0;
 
         // Check if this is a new record
         const isNewRecord = leaderboard.length <= 1 ||
