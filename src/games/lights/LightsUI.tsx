@@ -123,11 +123,11 @@ export const LightsUI = ({ onBack }: LightsUIProps) => {
                             onClick={() => nextLevel()}
                             className="px-8 py-4 bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 text-white text-lg rounded-full font-bold hover:from-red-400 hover:via-yellow-400 hover:to-green-400 transition shadow-lg"
                         >
-                            🎄 다음 레벨
+                            ❄️ 다음 레벨
                         </button>
                         <button
                             onClick={() => initGame()}
-                            className="text-cyan-300 hover:text-cyan-100"
+                            className="text-cyan-300 hover:text-cyan-100 py-2"
                         >
                             이 레벨 다시하기
                         </button>

@@ -95,15 +95,15 @@ export const Game2048UI = ({ onBack }: Game2048UIProps) => {
                     <div className="flex flex-col gap-3 mt-2">
                         <button
                             onClick={continueGame}
-                            className="px-8 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-lg rounded-full font-bold hover:from-amber-400 hover:to-yellow-400 transition shadow-lg"
+                            className="px-8 py-4 bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 text-white text-lg rounded-full font-bold hover:from-red-400 hover:via-yellow-400 hover:to-green-400 transition shadow-lg"
                         >
                             🚀 계속하기
                         </button>
                         <button
                             onClick={() => initGame()}
-                            className="text-cyan-300 hover:text-cyan-100"
+                            className="text-cyan-300 hover:text-cyan-100 py-2"
                         >
-                            🎮 다시 하기
+                            ❄️ 다시 하기
                         </button>
                     </div>
                 </div>
@@ -156,9 +156,9 @@ export const Game2048UI = ({ onBack }: Game2048UIProps) => {
 
                     <button
                         onClick={() => initGame()}
-                        className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-lg rounded-full font-bold hover:from-cyan-400 hover:to-blue-400 transition shadow-lg mt-2"
+                        className="px-8 py-4 bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 text-white text-lg rounded-full font-bold hover:from-red-400 hover:via-yellow-400 hover:to-green-400 transition shadow-lg mt-2"
                     >
-                        🎮 다시 하기
+                        ❄️ 다시 하기
                     </button>
                 </div>
 
