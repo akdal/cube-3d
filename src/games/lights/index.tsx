@@ -7,7 +7,7 @@ import { LightsGame } from './LightsGame';
 import { LightsUI } from './LightsUI';
 import { useLightsStore } from './useLightsStore';
 
-const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 6);
+const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 8);
 
 interface LightsProps {
     onBack: () => void;
@@ -47,8 +47,8 @@ function LightsScene() {
                 enablePan={false}
                 enableDamping
                 dampingFactor={0.05}
-                minDistance={4}
-                maxDistance={12}
+                minDistance={5}
+                maxDistance={14}
             />
         </>
     );
@@ -65,7 +65,7 @@ export const Lights = ({ onBack }: LightsProps) => {
         <div className="w-full h-full relative game-screen bg-gradient-to-b from-[#0a1628] via-[#0f2937] to-[#1a3a4a]">
             <LightsUI onBack={onBack} />
             <Canvas
-                camera={{ position: [0, 0, 6], fov: 50 }}
+                camera={{ position: [0, 0, 8], fov: 50 }}
                 gl={{ alpha: true }}
                 style={{ background: 'transparent' }}
             >

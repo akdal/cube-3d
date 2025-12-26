@@ -11,7 +11,7 @@ interface PuzzleProps {
     onBack: () => void;
 }
 
-const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 5);
+const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 7);
 
 function PuzzleScene() {
     const viewResetRequested = usePuzzleStore((s) => s.viewResetRequested);
@@ -47,8 +47,8 @@ function PuzzleScene() {
                 enablePan={false}
                 enableDamping
                 dampingFactor={0.05}
-                minDistance={3}
-                maxDistance={10}
+                minDistance={5}
+                maxDistance={12}
             />
         </>
     );
@@ -65,7 +65,7 @@ export const Puzzle = ({ onBack }: PuzzleProps) => {
         <div className="w-full h-full relative game-screen bg-gradient-to-b from-[#0a1628] via-[#0f2937] to-[#1a3a4a]">
             <PuzzleUI onBack={onBack} />
             <Canvas
-                camera={{ position: [0, 0, 5], fov: 50 }}
+                camera={{ position: [0, 0, 7], fov: 50 }}
                 gl={{ alpha: true }}
                 style={{ background: 'transparent' }}
             >

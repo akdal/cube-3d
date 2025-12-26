@@ -12,7 +12,7 @@ interface Game2048Props {
 }
 
 // Front view (XY plane) - same as other puzzle games
-const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 6);
+const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 7);
 
 function Game2048Scene() {
     const viewResetRequested = use2048Store((s) => s.viewResetRequested);
@@ -48,7 +48,7 @@ function Game2048Scene() {
                 enablePan={false}
                 enableDamping
                 dampingFactor={0.05}
-                minDistance={4}
+                minDistance={5}
                 maxDistance={12}
             />
         </>
@@ -69,7 +69,7 @@ export const Game2048 = ({ onBack }: Game2048Props) => {
         <div className="w-full h-full relative game-screen bg-gradient-to-b from-[#0a1628] via-[#0f2937] to-[#1a3a4a]">
             <Game2048UI onBack={onBack} />
             <Canvas
-                camera={{ position: [0, 0, 6], fov: 50 }}
+                camera={{ position: [0, 0, 7], fov: 50 }}
                 gl={{ alpha: true }}
                 style={{ background: 'transparent' }}
             >

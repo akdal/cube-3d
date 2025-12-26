@@ -11,7 +11,7 @@ interface MemoryProps {
     onBack: () => void;
 }
 
-const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 6);
+const DEFAULT_CAMERA_POSITION = new Vector3(0, 0, 7);
 
 function MemoryScene() {
     const viewResetRequested = useMemoryStore((s) => s.viewResetRequested);
@@ -47,7 +47,7 @@ function MemoryScene() {
                 enablePan={false}
                 enableDamping
                 dampingFactor={0.05}
-                minDistance={4}
+                minDistance={5}
                 maxDistance={12}
             />
         </>
@@ -65,7 +65,7 @@ export const Memory = ({ onBack }: MemoryProps) => {
         <div className="w-full h-full relative game-screen bg-gradient-to-b from-[#0a1628] via-[#0f2937] to-[#1a3a4a]">
             <MemoryUI onBack={onBack} />
             <Canvas
-                camera={{ position: [0, 0, 6], fov: 50 }}
+                camera={{ position: [0, 0, 7], fov: 50 }}
                 gl={{ alpha: true }}
                 style={{ background: 'transparent' }}
             >
