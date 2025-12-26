@@ -148,9 +148,9 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
   })), []);
 
   return (
-    <div className="w-full min-h-full bg-gradient-to-b from-[#0a1628] via-[#0f2937] to-[#1a3a4a] flex flex-col p-4 py-8 relative overflow-y-auto">
-      {/* Animated winter background - fixed to viewport */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+    <div className="w-full min-h-full bg-gradient-to-b from-[#0a1628] via-[#0f2937] to-[#1a3a4a] flex items-center justify-center p-4 py-8 relative overflow-y-auto">
+      {/* Animated winter background */}
+      <div className="absolute inset-0 overflow-hidden">
         {/* Aurora-like glow */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[300px] bg-gradient-to-b from-green-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl animate-pulse" />
         <div className="absolute top-10 right-1/4 w-[400px] h-[250px] bg-gradient-to-b from-blue-500/10 via-purple-500/5 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
@@ -165,9 +165,9 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
         ))}
       </div>
 
-      {/* Stars overlay - fixed to viewport */}
+      {/* Stars overlay */}
       <div
-        className="fixed inset-0 opacity-30 pointer-events-none"
+        className="absolute inset-0 opacity-30"
         style={{
           backgroundImage: `radial-gradient(2px 2px at 20px 30px, white, transparent),
                            radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
@@ -178,15 +178,14 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
         }}
       />
 
-      {/* Sticky header - Star and "for 로하" */}
-      <div className="sticky top-0 z-20 text-center pb-4 bg-gradient-to-b from-[#0a1628] via-[#0a1628]/95 to-[#0a1628]/0 pt-2">
+      <div className="text-center relative z-10">
         {/* Season's Greetings */}
         <div className="mb-3 text-2xl">
           <span className="animate-pulse">⭐</span>
         </div>
 
         {/* Dedication - Enhanced */}
-        <div>
+        <div className="mb-6">
           <div className="inline-block px-8 py-4 rounded-2xl bg-gradient-to-r from-red-500/20 via-green-500/20 to-red-500/20 border border-white/20 backdrop-blur-sm shadow-lg">
             <div className="flex items-center justify-center gap-3">
               <span className="text-2xl">🎄</span>
@@ -197,9 +196,7 @@ function GameMenu({ onSelectGame }: GameMenuProps) {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="text-center relative z-10 flex-1 flex flex-col items-center justify-center">
         {/* Title */}
         <h1 className="text-5xl sm:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-white to-green-400 mb-3 tracking-tight drop-shadow-lg">
           PUZZLE
